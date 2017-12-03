@@ -58,7 +58,7 @@ precedence = (
 )
 
 # dictionary of names
-rg = {'r0' : 0, 'r1' : 0, 'r2' : 0, 'r3' : 0, 'r4' : 0, 'r5' : 0, 'r6' : 0, 'r7' : 0} # register set populated with values
+rg = {'r0' : -99, 'r1' : -99, 'r2' : -99, 'r3' : -99, 'r4' : -99, 'r5' : -99, 'r6' : -99, 'r7' : -99} # register set populated with values
 names={}#dictionary that holds name,value pair
 names2={}#dictionary that holds name,register
 stack=[]
@@ -72,7 +72,7 @@ def get_free_rg():
     global _l
     for i in range(8):
         r='r'+str(i)#register naming convention
-        if((rg[r]==0) and (r not in _mainr) and (r!=_l)):
+        if((rg[r]==-99) and (r not in _mainr) and (r!=_l)):
             return r#found a free register,return it
     # rg[queue.get()]=0
     # rg[queue.get()]=0
@@ -150,7 +150,19 @@ def p_expression_binop(p):#expression defined as a recursion on itself
         
     elif p[2] == '/':
         #p[0] = p[1] / p[3]
-
+        if(p[1]==None):
+            p[1]=_l
+        if(p[3]==None):
+            p[3]=_l
+        if(p[0]==None):
+            p[0]=_l
+        if(rg[p[3]]==0):
+           print "division by zero error"
+           
+        else:
+           rg[p[0]]=rg[p[1]]/rg[p[3]]
+           print "DIV " + p[0] + " "+p[1] +" "+p[3]
+           
 
 def p_expression_uminus(p):
     "expression : '-' expression %prec UMINUS"
