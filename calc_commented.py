@@ -41,7 +41,7 @@ def t_newline(t):
 
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])#throws an error if any other character is encountered
+    print("Lexer:Illegal character '%s'" % t.value[0])#throws an error if any other character is encountered
     t.lexer.skip(1)
 
 # Build the lexer
@@ -50,7 +50,7 @@ lex.lex()
 
 # Parsing rules
 
-#defining precedence of operators
+#defining precedence of operators:lowest to highest
 precedence = (
     ('left', '+', '-'),
     ('left', '*', '/'),
@@ -116,9 +116,9 @@ def p_expression_binop(p):#expression defined as a recursion on itself
    
     queue.put(_l)
  
-    if p[2] == '+':
+    if p[2] == '+':#addition
         # p[0] = p[1] + p[3]
-        if(p[1]==None):
+        if(p[1]==None):#if one operand is missing,use the register fromt the previous operation
             p[1]=_l
         if(p[3]==None):
             p[3]=_l
@@ -126,9 +126,18 @@ def p_expression_binop(p):#expression defined as a recursion on itself
             p[0]=_l
         rg[p[0]]=rg[p[1]]+rg[p[3]]
         print "ADD " + p[0] + " "+p[1] +" "+p[3]
-    elif p[2] == '-':
-        p[0] = p[1] - p[3]
-    elif p[2] == '*':
+        
+    elif p[2] == '-':#subtraction
+        if(p[1]==None):#if one operand is missing,use the register fromt the previous operation
+            p[1]=_l
+        if(p[3]==None):
+            p[3]=_l
+        if(p[0]==None):
+            p[0]=_l
+        rg[p[0]]=rg[p[1]]-rg[p[3]]
+        print "SUB " + p[0] + " "+p[1] +" "+p[3]
+        
+    elif p[2] == '*':#multiplication
         # p[0] = p[1] * p[3]
         if(p[1]==None):
             p[1]=_l
@@ -138,8 +147,9 @@ def p_expression_binop(p):#expression defined as a recursion on itself
             p[0]=_l
         rg[p[0]]=rg[p[1]]*rg[p[3]]
         print "MUL " + p[0] + " "+p[1] +" "+p[3]
+        
     elif p[2] == '/':
-        p[0] = p[1] / p[3]
+        #p[0] = p[1] / p[3]
 
 
 def p_expression_uminus(p):
@@ -185,7 +195,7 @@ def p_expression_name(p):#checks if value is stored in a register already;else i
 
 def p_error(p):
     if p:
-        print("Syntax error at '%s'" % p.value)
+        print("Parser:Syntax error at '%s'" % p.value)
     else:
         print("Syntax error at EOF")
 
