@@ -1,0 +1,23 @@
+testcases
+
+c@d:illegal character error
+
+addition
+c+d
+c+d+e
+c+(d+e)
+c+d+e+(d+e+(e+a))
+
+multiplication
+c*d
+c*d*e
+c*(d*e)
+
+division
+check for division by zero
+c/d
+c/d*e
+
+linear comination
+c+(d*e)--precedence works
+
