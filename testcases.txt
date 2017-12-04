@@ -1,6 +1,12 @@
 testcases
 
+error handling
 c@d:illegal character error
+a+b without defining b;name not defined error
+division by zero error
+modulus by zero not defined
+
+Arithmetic operations 
 
 addition
 c+d
@@ -18,6 +24,14 @@ check for division by zero
 c/d
 c/d*e
 
+modulus
+a%b
+
 linear comination
-c+(d*e)--precedence works
+c+(d*e)--precedence works,checked for associativity
+a+c%b/d
+
+
+
+
 

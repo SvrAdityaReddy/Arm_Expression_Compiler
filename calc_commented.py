@@ -117,55 +117,47 @@ def p_expression_binop(p):#expression defined as a recursion on itself
    
     queue.put(_l)
 
+<<<<<<< Updated upstream
     #print _l
 
     if ((p[1] == "error") | (p[3]=="error")):
     	print("Binop:Cannot perform operation\t ;Undefined variable name")
     	return
  
+=======
+    if(p[1]==None):#if one operand is missing,use the register fromt the previous operation
+        p[1]=_l
+    if(p[3]==None):
+        p[3]=_l
+    if(p[0]==None):
+        p[0]=_l
+            
+>>>>>>> Stashed changes
     if p[2] == '+':#addition
         # p[0] = p[1] + p[3]
-        if(p[1]==None):#if one operand is missing,use the register fromt the previous operation
-            p[1]=_l
-        if(p[3]==None):
-            p[3]=_l
-        if(p[0]==None):
-            p[0]=_l
+       
         rg[p[0]]=rg[p[1]]+rg[p[3]]
      
         print "ADD " + p[0] + " ,"+p[1] +" ,"+p[3]
         
     elif p[2] == '-':#subtraction
-        if(p[1]==None):#if one operand is missing,use the register fromt the previous operation
-            p[1]=_l
-        if(p[3]==None):
-            p[3]=_l
-        if(p[0]==None):
-            p[0]=_l
+        
         rg[p[0]]=rg[p[1]]-rg[p[3]]
         print "SUB " + p[0] + " ,"+p[1] +" ,"+p[3]
         
     elif p[2] == '*':#multiplication
         # p[0] = p[1] * p[3]
-        if(p[1]==None):
-            p[1]=_l
-        if(p[3]==None):
-            p[3]=_l
-        if(p[0]==None):
-            p[0]=_l
+    
         rg[p[0]]=rg[p[1]]*rg[p[3]]
         print "MUL " + p[0] + ", "+p[1] +", "+p[3]
         
     elif p[2] == '/':
         #p[0] = p[1] / p[3]
-        if(p[1]==None):
-            p[1]=_l
-        if(p[3]==None):
-            p[3]=_l
-        if(p[0]==None):
-            p[0]=_l
+      
         if(rg[p[3]]==0):
            print "division by zero error"
+           print "register dump "
+           print rg
            
         else:
            rg[p[0]]=rg[p[1]]/rg[p[3]]
