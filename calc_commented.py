@@ -169,7 +169,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
            
         else:
            rg[p[0]]=rg[p[1]]/rg[p[3]]
-           print "DIV " + p[0] + ", "+p[1] +", "+p[3]
+           print "SDIV " + p[0] + ", "+p[1] +", "+p[3]
 
     elif p[2] == '%':
     	#p[0] = p[1] % p[3]
@@ -180,11 +180,12 @@ def p_expression_binop(p):#expression defined as a recursion on itself
         if(p[0]==None):
             p[0]=_l
         if(rg[p[3]]==0):
-           print "modulus by zero error"
+           print "modulus by zero is not defined"
        
         else:
         	rg[p[0]]=rg[p[1]]%rg[p[3]]
-        	print "MOD " + p[0] + ", "+p[1] +", "+p[3]
+        	print "SDIV " + p[0] + ", "+p[1] +", "+p[3]
+        	print "MLS " + p[0] +","+ p[0] + ", "+p[3] +", "+p[1]  
            
      
                       
