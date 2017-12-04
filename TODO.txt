@@ -1,0 +1,12 @@
+range checking--only 32 bit numbers
+write generated code to a file,add the beginning code too
+
+arithmetic operations--done
+exponentiation--no instr support,multiple MULs:should we implement?
+
+logical--and or not
+shift operations
+relational
+
+if
+while,for
