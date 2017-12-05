@@ -206,18 +206,27 @@ def p_expression_binop(p):#expression defined as a recursion on itself
     elif p[2] == '>>':#Bitwise Right Shift or Divide by 2
         # p[0] = p[1] >> p[3]
     	#print "RS"
-        rg[p[0]]=rg[p[1]]>>rg[p[3]]
-        instr= "LSR " + p[0] + ", "+p[1] +", "+p[3]
-        print instr
-        file_asm.write("\t"+instr+"\n")  
+        if(rg[p[3]]<0):
+            print "negative shift count not permitted"
+        elif(rg[p[3]]>32):
+            print "32 bit registers:shift by a value less than 32"
+        else:
+            rg[p[0]]=rg[p[1]]>>rg[p[3]]
+            instr= "LSR " + p[0] + ", "+p[1] +", "+p[3]
+            print instr
+            file_asm.write("\t"+instr+"\n")  
 
     elif p[2] == '<<':#Bitwise Left Shift or Multiply by 2
         # p[0] = p[1] << p[3]
-    
-        rg[p[0]]=rg[p[1]]<<rg[p[3]]
-        instr= "LSL " + p[0] + ", "+p[1] +", "+p[3]
-        print instr
-        file_asm.write("\t"+instr+"\n")             
+        if(rg[p[3]]<0):
+            print "negative shift count not permitted"
+        elif(rg[p[3]]>32):
+            print "32 bit registers:shift by a value less than 32"
+        else:
+            rg[p[0]]=rg[p[1]]<<rg[p[3]]
+            instr= "LSL " + p[0] + ", "+p[1] +", "+p[3]
+            print instr
+            file_asm.write("\t"+instr+"\n")             
 
 def p_expression_uminus(p):
     "expression : '-' expression %prec UMINUS"
