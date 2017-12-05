@@ -19,6 +19,7 @@ tokens = (
     'NAME', 'NUMBER',
 )
 
+no_of_regs=12
 literals = ['=', '+', '-', '*','/', '%', '(', ')']#arithmetic operators
 
 # defining the Tokens number and name
@@ -58,7 +59,7 @@ precedence = (
 )
 
 # dictionary of names
-rg = {'r0' : -99, 'r1' : -99, 'r2' : -99, 'r3' : -99, 'r4' : -99, 'r5' : -99, 'r6' : -99, 'r7' : -99} # register set populated with values
+rg = {'r0' : -99, 'r1' : -99, 'r2' : -99, 'r3' : -99, 'r4' : -99, 'r5' : -99, 'r6' : -99, 'r7' : -99,'r8' : -99, 'r9' : -99, 'r10' : -99, 'r11' : -99,'r12':-99} # register set populated with values
 names={}#dictionary that holds name,value pair
 names2={}#dictionary that holds name,register
 stack=[]
@@ -70,7 +71,7 @@ _l=''#current register
 def get_free_rg():
     global _mainr
     global _l
-    for i in range(8):
+    for i in range(no_of_regs):
         r='r'+str(i)#register naming convention
         if((rg[r]==-99) and (r not in _mainr) and (r!=_l)):
             return r#found a free register,return it
@@ -117,14 +118,14 @@ def p_expression_binop(p):#expression defined as a recursion on itself
    
     queue.put(_l)
 
-<<<<<<< Updated upstream
+
     #print _l
 
     if ((p[1] == "error") | (p[3]=="error")):
     	print("Binop:Cannot perform operation\t ;Undefined variable name")
     	return
  
-=======
+
     if(p[1]==None):#if one operand is missing,use the register fromt the previous operation
         p[1]=_l
     if(p[3]==None):
@@ -132,7 +133,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
     if(p[0]==None):
         p[0]=_l
             
->>>>>>> Stashed changes
+
     if p[2] == '+':#addition
         # p[0] = p[1] + p[3]
        
