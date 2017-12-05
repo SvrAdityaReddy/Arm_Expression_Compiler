@@ -19,10 +19,10 @@ asm_end="stop B stop\n\tENDFUNC\n\tEND"
     
 #declaring the tokens for the lexer
 tokens = (
-    'NAME', 'NUMBER',
+    'NAME', 'NUMBER','LS','RS',
 )
 
-literals = ['=', '+', '-', '*','/', '%', '(', ')']#arithmetic operators
+literals = ['=', '+', '-', '*','/', '%','(', ')']#arithmetic operators
 
 # defining the Tokens number and name
 
@@ -37,6 +37,13 @@ def t_NUMBER(t):
 
 t_ignore = " \t"#ignore tabspaces
 
+def t_LS(t):
+    r'<<'
+    return t
+
+def t_RS(t):
+    r'>>'
+    return t
 
 def t_newline(t):
     r'\n+'
@@ -55,6 +62,7 @@ lex.lex()
 
 #defining precedence of operators:lowest to highest
 precedence = (
+    ('left', 'LS', 'RS'),
     ('left', '+', '-'),
     ('left', '*', '/','%'),
     ('right', 'UMINUS'),
@@ -111,7 +119,9 @@ def p_expression_binop(p):#expression defined as a recursion on itself
                   | expression '-' expression
                   | expression '*' expression
                   | expression '/' expression
-                  | expression '%' expression'''
+                  | expression '%' expression
+                  | expression LS expression
+                  | expression RS expression'''
     #print "p_expression_binop"
     global _mainr
     global _l
@@ -193,7 +203,21 @@ def p_expression_binop(p):#expression defined as a recursion on itself
         	file_asm.write("\t"+instr1+"\n")
         	file_asm.write("\t"+instr2+"\n")
                 
-                      
+    elif p[2] == '>>':#Bitwise Right Shift or Divide by 2
+        # p[0] = p[1] >> p[3]
+    	#print "RS"
+        rg[p[0]]=rg[p[1]]>>rg[p[3]]
+        instr= "LSR " + p[0] + ", "+p[1] +", "+p[3]
+        print instr
+        file_asm.write("\t"+instr+"\n")  
+
+    elif p[2] == '<<':#Bitwise Left Shift or Multiply by 2
+        # p[0] = p[1] << p[3]
+    
+        rg[p[0]]=rg[p[1]]<<rg[p[3]]
+        instr= "LSL " + p[0] + ", "+p[1] +", "+p[3]
+        print instr
+        file_asm.write("\t"+instr+"\n")             
 
 def p_expression_uminus(p):
     "expression : '-' expression %prec UMINUS"
