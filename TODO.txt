@@ -5,7 +5,10 @@ arithmetic operations--done
 exponentiation--no instr support,multiple MULs:should we implement?
 
 logical--and or not
-shift operations
+shift operations--done using token because literal is single character
+
+check if shift is by more than 32 or -ve;throw an error
+
 relational
 
 if

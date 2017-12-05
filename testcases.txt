@@ -30,7 +30,14 @@ a%b
 linear comination
 c+(d*e)--precedence works,checked for associativity
 a+c%b/d
+a+b-c*d/e%f
 
+logical
+shift
+a>>b
+a<<b
+a+b>>c/d
+a+b>>c/d<<e
 
 
 
