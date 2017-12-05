@@ -11,6 +11,9 @@ sys.path.insert(0, "../..")#add to search path
 
 if sys.version_info[0] >= 3:#if python 3 or greater,use input instead of raw_input
     raw_input = input
+    
+asm_beg="\tAREA     appcode, CODE, READONLY\n\tEXPORT __main\n\tENTRY\n__main  FUNCTION\n"
+asm_end="stop B stop\n\tENDFUNC\n\tEND"
 
 #lexer code
     
@@ -19,7 +22,6 @@ tokens = (
     'NAME', 'NUMBER',
 )
 
-no_of_regs=12
 literals = ['=', '+', '-', '*','/', '%', '(', ')']#arithmetic operators
 
 # defining the Tokens number and name
@@ -59,7 +61,7 @@ precedence = (
 )
 
 # dictionary of names
-rg = {'r0' : -99, 'r1' : -99, 'r2' : -99, 'r3' : -99, 'r4' : -99, 'r5' : -99, 'r6' : -99, 'r7' : -99,'r8' : -99, 'r9' : -99, 'r10' : -99, 'r11' : -99,'r12':-99} # register set populated with values
+rg = {'r0' : -99, 'r1' : -99, 'r2' : -99, 'r3' : -99, 'r4' : -99, 'r5' : -99, 'r6' : -99, 'r7' : -99,'r8' : -99, 'r9' : -99, 'r10' : -99, 'r11' : -99, 'r12' : -99} # register set populated with values
 names={}#dictionary that holds name,value pair
 names2={}#dictionary that holds name,register
 stack=[]
@@ -67,6 +69,8 @@ queue=Queue.Queue()
 #internal variables
 _mainr=[]#registers being used for storing calculation results
 _l=''#current register
+
+no_of_regs=12
 
 def get_free_rg():
     global _mainr
@@ -92,7 +96,9 @@ def p_statement_assign(p):
     r=get_free_rg()#look for a free register
     names2[p[1]] = r#add name,register to dictionary
     rg[r]=p[3]#store the value into the register
-    print "MOV "+r+" ,#"+str(rg[r])
+    instr="MOV "+r+" ,#"+str(rg[r])
+    print instr
+    file_asm.write("\t"+instr+"\n")
 
 
 def p_statement_expr(p):
@@ -139,18 +145,24 @@ def p_expression_binop(p):#expression defined as a recursion on itself
        
         rg[p[0]]=rg[p[1]]+rg[p[3]]
      
-        print "ADD " + p[0] + " ,"+p[1] +" ,"+p[3]
+        instr="ADD " + p[0] + " ,"+p[1] +" ,"+p[3]
+        print instr
+        file_asm.write("\t"+instr+"\n")
         
     elif p[2] == '-':#subtraction
         
         rg[p[0]]=rg[p[1]]-rg[p[3]]
-        print "SUB " + p[0] + " ,"+p[1] +" ,"+p[3]
+        instr= "SUB " + p[0] + " ,"+p[1] +" ,"+p[3]
+        print instr
+        file_asm.write("\t"+instr+"\n")
         
     elif p[2] == '*':#multiplication
         # p[0] = p[1] * p[3]
     
         rg[p[0]]=rg[p[1]]*rg[p[3]]
-        print "MUL " + p[0] + ", "+p[1] +", "+p[3]
+        instr= "MUL " + p[0] + ", "+p[1] +", "+p[3]
+        print instr
+        file_asm.write("\t"+instr+"\n")
         
     elif p[2] == '/':
         #p[0] = p[1] / p[3]
@@ -162,25 +174,25 @@ def p_expression_binop(p):#expression defined as a recursion on itself
            
         else:
            rg[p[0]]=rg[p[1]]/rg[p[3]]
-           print "SDIV " + p[0] + ", "+p[1] +", "+p[3]
+           instr= "SDIV " + p[0] + ", "+p[1] +", "+p[3]
+           print instr
+           file_asm.write("\t"+instr+"\n")
 
     elif p[2] == '%':
     	#p[0] = p[1] % p[3]
-        if(p[1]==None):
-            p[1]=_l
-        if(p[3]==None):
-            p[3]=_l
-        if(p[0]==None):
-            p[0]=_l
         if(rg[p[3]]==0):
            print "modulus by zero is not defined"
        
         else:
         	rg[p[0]]=rg[p[1]]%rg[p[3]]
-        	print "SDIV " + p[0] + ", "+p[1] +", "+p[3]
-        	print "MLS " + p[0] +","+ p[0] + ", "+p[3] +", "+p[1]  
-           
-     
+        	instr1= "SDIV " + p[0] + ", "+p[1] +", "+p[3]
+        	instr2= "MLS " + p[0] +","+ p[0] + ", "+p[3] +", "+p[1]
+        	print instr1
+        	print instr2
+
+        	file_asm.write("\t"+instr1+"\n")
+        	file_asm.write("\t"+instr2+"\n")
+                
                       
 
 def p_expression_uminus(p):
@@ -247,6 +259,10 @@ yacc.yacc()
 #     print stack
 #     print rg
 
+
+file_asm = open("autogen.s",'w')
+file_asm.write(asm_beg)
+
 #open the input file and parse it line by line
 with open("input.txt") as f:
     for line in f:
@@ -255,3 +271,6 @@ with open("input.txt") as f:
         #print rg
     print "register dump "
     print rg
+    
+file_asm.write(asm_end)
+file_asm.close()
