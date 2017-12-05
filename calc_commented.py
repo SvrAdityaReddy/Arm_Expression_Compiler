@@ -22,7 +22,7 @@ tokens = (
     'NAME', 'NUMBER','LS','RS',
 )
 
-literals = ['=', '+', '-', '*','/', '<','>','%','(', ')']#arithmetic operators
+literals = ['=', '+', '-', '*','/', '%','(', ')']#arithmetic operators
 
 # defining the Tokens number and name
 
@@ -65,7 +65,6 @@ precedence = (
     ('left', 'LS', 'RS'),
     ('left', '+', '-'),
     ('left', '*', '/','%'),
-    ('left', '>', '<'),
     ('right', 'UMINUS'),
 )
 
@@ -101,13 +100,16 @@ def get_free_rg():
 def p_statement_assign(p):
     'statement : NAME "=" expression'#tokens in an assignment statement
     #print "p_statement_assign"
-    names[p[1]] = p[3]#add name,expression to the dictionary
-    r=get_free_rg()#look for a free register
-    names2[p[1]] = r#add name,register to dictionary
-    rg[r]=p[3]#store the value into the register
-    instr="MOV "+r+" ,#"+str(rg[r])
-    print instr
-    file_asm.write("\t"+instr+"\n")
+    if((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31)))):
+        print "Assignment error:number out of range.Registers are 32 bit"
+    else:  
+        names[p[1]] = p[3]#add name,expression to the dictionary
+        r=get_free_rg()#look for a free register
+        names2[p[1]] = r#add name,register to dictionary
+        rg[r]=p[3]#store the value into the register
+        instr="MOV "+r+" ,#"+str(rg[r])
+        print instr
+        file_asm.write("\t"+instr+"\n")
 
 
 def p_statement_expr(p):
@@ -122,9 +124,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
                   | expression '/' expression
                   | expression '%' expression
                   | expression LS expression
-                  | expression RS expression
-     		  | expression '<' expression
-		  | expression '>' expression'''
+                  | expression RS expression'''
     #print "p_expression_binop"
     global _mainr
     global _l
@@ -209,50 +209,27 @@ def p_expression_binop(p):#expression defined as a recursion on itself
     elif p[2] == '>>':#Bitwise Right Shift or Divide by 2
         # p[0] = p[1] >> p[3]
     	#print "RS"
-        rg[p[0]]=rg[p[1]]>>rg[p[3]]
-        instr= "LSR " + p[0] + ", "+p[1] +", "+p[3]
-        print instr
-        file_asm.write("\t"+instr+"\n") 
-
+        if(rg[p[3]]<0):
+            print "negative shift count not permitted"
+        elif(rg[p[3]]>32):
+            print "32 bit registers:shift by a value less than 32"
+        else:
+            rg[p[0]]=rg[p[1]]>>rg[p[3]]
+            instr= "LSR " + p[0] + ", "+p[1] +", "+p[3]
+            print instr
+            file_asm.write("\t"+instr+"\n")  
 
     elif p[2] == '<<':#Bitwise Left Shift or Multiply by 2
         # p[0] = p[1] << p[3]
-    
-        rg[p[0]]=rg[p[1]]<<rg[p[3]]
-        instr= "LSL " + p[0] + ", "+p[1] +", "+p[3]
-        print instr
-        file_asm.write("\t"+instr+"\n")    
-       
-    elif p[2] == '>':#Greater than 
-        # p[0] = p[1] > p[3]
-    	#print "RS"
-        rg[p[0]]=int(rg[p[1]]>rg[p[3]])
-        instr1= "CMP " +p[1] +", "+p[3]
-	if(rg[p[1]]>rg[p[3]]):	
-		instr2= "MOVGT " + p[0]+ ", #1"
-	else:
-		instr2= "MOVLE " + p[0]+ ", #0"
-	
-        print instr1
-	print instr2
-        file_asm.write("\t"+instr1+"\n") 
-        file_asm.write("\t"+instr2+"\n") 
-
-    elif p[2] == '<':#Lesser than
-        # p[0] = p[1] < p[3]
-    	#print "RS"
-        rg[p[0]]=int(rg[p[1]]<rg[p[3]])
-        instr1= "CMP" +p[1] +", "+p[3]
-	if(rg[p[1]]<rg[p[3]]):	
-		instr2= "MOVLT " + p[0]+ ", #1"
-	else:
-		instr2= "MOVGE " + p[0]+ ", #0"
-	
-        print instr1
-	print instr2
-        file_asm.write("\t"+instr1+"\n") 
-        file_asm.write("\t"+instr2+"\n") 
-
+        if(rg[p[3]]<0):
+            print "negative shift count not permitted"
+        elif(rg[p[3]]>32):
+            print "32 bit registers:shift by a value less than 32"
+        else:
+            rg[p[0]]=rg[p[1]]<<rg[p[3]]
+            instr= "LSL " + p[0] + ", "+p[1] +", "+p[3]
+            print instr
+            file_asm.write("\t"+instr+"\n")             
 
 def p_expression_uminus(p):
     "expression : '-' expression %prec UMINUS"
