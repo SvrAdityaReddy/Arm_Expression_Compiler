@@ -22,7 +22,7 @@ tokens = (
     'NAME', 'NUMBER','LS','RS',
 )
 
-literals = ['=', '+', '-', '*','/', '%','(', ')']#arithmetic operators
+literals = ['=', '+', '-', '*', '<','>','/', '%','(', ')']#arithmetic operators
 
 # defining the Tokens number and name
 
@@ -62,6 +62,7 @@ lex.lex()
 
 #defining precedence of operators:lowest to highest
 precedence = (
+    ('left', '>', '<'),
     ('left', 'LS', 'RS'),
     ('left', '+', '-'),
     ('left', '*', '/','%'),
@@ -124,7 +125,9 @@ def p_expression_binop(p):#expression defined as a recursion on itself
                   | expression '/' expression
                   | expression '%' expression
                   | expression LS expression
-                  | expression RS expression'''
+                  | expression RS expression
+                  | expression '<' expression
+ +		  | expression '>' expression'''
     #print "p_expression_binop"
     global _mainr
     global _l
@@ -229,7 +232,36 @@ def p_expression_binop(p):#expression defined as a recursion on itself
             rg[p[0]]=rg[p[1]]<<rg[p[3]]
             instr= "LSL " + p[0] + ", "+p[1] +", "+p[3]
             print instr
-            file_asm.write("\t"+instr+"\n")             
+            file_asm.write("\t"+instr+"\n")
+    elif p[2] == '>':#Greater than 
+        # p[0] = p[1] > p[3]
+    	#print "RS"
+        rg[p[0]]=int(rg[p[1]]>rg[p[3]])
+        instr1= "CMP " +p[1] +", "+p[3]
+	if(rg[p[1]]>rg[p[3]]):	
+		instr2= "MOVGT " + p[0]+ ", #1"
+	else:
+		instr2= "MOVLE " + p[0]+ ", #0"
+	
+        print instr1
+	print instr2
+        file_asm.write("\t"+instr1+"\n") 
+        file_asm.write("\t"+instr2+"\n") 
+
+    elif p[2] == '<':#Lesser than
+        # p[0] = p[1] < p[3]
+    	#print "RS"
+        rg[p[0]]=int(rg[p[1]]<rg[p[3]])
+        instr1= "CMP" +p[1] +", "+p[3]
+	if(rg[p[1]]<rg[p[3]]):	
+		instr2= "MOVLT " + p[0]+ ", #1"
+	else:
+		instr2= "MOVGE " + p[0]+ ", #0"
+	
+        print instr1
+	print instr2
+        file_asm.write("\t"+instr1+"\n") 
+        file_asm.write("\t"+instr2+"\n") 
 
 def p_expression_uminus(p):
     "expression : '-' expression %prec UMINUS"
