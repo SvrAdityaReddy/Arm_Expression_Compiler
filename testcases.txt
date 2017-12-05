@@ -5,6 +5,8 @@ c@d:illegal character error
 a+b without defining b;name not defined error
 division by zero error
 modulus by zero not defined
+shift by negative
+shift by more than 32
 
 Arithmetic operations 
 
