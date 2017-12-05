@@ -22,7 +22,7 @@ tokens = (
     'NAME', 'NUMBER','LS','RS',
 )
 
-literals = ['=', '+', '-', '*', '<','>','/', '%','(', ')']#arithmetic operators
+literals = ['=', '+', '-', '*', '<','>','/', '%','(', ')','?',':']#arithmetic operators
 
 # defining the Tokens number and name
 
@@ -66,7 +66,7 @@ precedence = (
     ('left', 'LS', 'RS'),
     ('left', '+', '-'),
     ('left', '*', '/','%'),
-    ('right', 'UMINUS'),
+    
 )
 
 # dictionary of names
@@ -263,9 +263,87 @@ def p_expression_binop(p):#expression defined as a recursion on itself
         file_asm.write("\t"+instr1+"\n") 
         file_asm.write("\t"+instr2+"\n") 
 
-def p_expression_uminus(p):
-    "expression : '-' expression %prec UMINUS"
-    p[0] = -p[2]
+def p_expression_ternop(p):#expression defined as a recursion on itself
+    '''expression : NAME '>' NAME '?' NAME '=' NUMBER ':' NAME '=' NUMBER
+                  | NAME '<' NAME '?' NAME '=' NUMBER ':' NAME '=' NUMBER'''
+                    #NAME '<' NAME '?' NAME '=' NUMBER ':' NAME '=' NUMBER
+    # p[0]          p[1]        p[3]   p[5]    p[7]         p[9]    p[11]
+    
+    #print "p_expression_ternop"
+    
+    global _mainr
+    global _l
+    if(_l!=''):
+        queue.put(_l)
+        
+    _mainr.append(get_free_rg())
+    
+    _l=_mainr.pop()
+   
+    queue.put(_l)
+
+
+    #print _l
+
+    if ((p[1] == "error") | (p[3]=="error") | (p[5]=="error")| (p[9]=="error")):
+    	print("Ternop:Cannot perform operation\t ;Undefined variable name")
+    	return
+ 
+    
+    
+    if(p[0]==None):
+        p[0]=_l
+    p[1]=names2[p[1]]
+    p[3]=names2[p[3]]
+    #print p[1]
+    #print p[3]
+    
+    if p[2] == '>':#Greater than 
+        # p[0] = p[1] > p[3]
+    	#print "RS"
+        rg[p[0]]=int(rg[p[1]]>rg[p[3]])
+        instr1= "CMP " +p[1] +", "+p[3]
+        if(rg[p[1]]>rg[p[3]]):	
+            rg[names2[p[5]]]=p[7]#store the value into the register
+            instr2="MOVLE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])    
+            
+            print instr1
+            print instr2
+            file_asm.write("\t"+instr1+"\n") 
+            file_asm.write("\t"+instr2+"\n")
+        else:
+
+            rg[names2[p[9]]]=p[11]#store the value into the register
+            instr2="MOVLE "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])   
+            
+            print instr1
+            print instr2
+            file_asm.write("\t"+instr1+"\n") 
+            file_asm.write("\t"+instr2+"\n")   
+
+            
+    if p[2] == '<':#Lesser than 
+        # p[0] = p[1] > p[3]
+    	#print "RS"
+        rg[p[0]]=int(rg[p[1]]>rg[p[3]])
+        instr1= "CMP " +p[1] +", "+p[3]
+        if(rg[p[1]]<rg[p[3]]):
+            rg[names2[p[5]]]=p[7]#store the value into the register
+            instr2="MOVLE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])   
+            
+            print instr1
+            print instr2
+            file_asm.write("\t"+instr1+"\n") 
+            file_asm.write("\t"+instr2+"\n")
+        else:
+            rg[names2[p[9]]]=p[11]#store the value into the register
+            instr2="MOVGT "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])    
+            
+            print instr1
+            print instr2
+            file_asm.write("\t"+instr1+"\n") 
+            file_asm.write("\t"+instr2+"\n")   
+
 
 
 def p_expression_group(p):
