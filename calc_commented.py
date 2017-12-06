@@ -108,8 +108,39 @@ def p_statement_assign(p):
             if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):#out of range
                 print "Assignment error:number out of range.Registers are 32 bit"
             else:#in range,number
-                names[p[1]] = p[3]
-                rg[names2[p[1]]]=p[3]#store the value into the register
+                if (len(stack)!=0):
+                    op=stack.pop()
+                    if(op=='<' and len(stack)==0):
+                        names[p[1]] = p[3]
+                        rg[names2[p[1]]]=p[3]
+                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='<' and len(stack)==1):
+                        names[p[1]] = p[3]
+                        rg[names2[p[1]]]=p[3]
+                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='>' and len(stack)==0):
+                        names[p[1]] = p[3]
+                        rg[names2[p[1]]]=p[3]
+                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='>' and len(stack)==1):
+                        names[p[1]] = p[3]
+                        rg[names2[p[1]]]=p[3]
+                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                else:
+                    names[p[1]] = p[3]
+                    rg[names2[p[1]]]=p[3]#store the value into the register
         else:#register
             names[p[1]] = rg[p[3]]
             rg[names2[p[1]]]=rg[p[3]]#store the value into the register
@@ -127,16 +158,94 @@ def p_statement_assign(p):
             if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):#out of range
                 print "Assignment error:number out of range.Registers are 32 bit"
             else:#in range,number
-                names[p[1]] = p[3]#add name,expression to the dictionary
-                r=get_free_rg()#look for a free register
-                names2[p[1]] = r#add name,register to dictionary
-                rg[r]=p[3]#store the value into the register
+                if (len(stack)!=0):
+                    op=stack.pop()
+                    if(op=='<' and len(stack)==0):
+                        names[p[1]] = p[3]#add name,expression to the dictionary
+                        r=get_free_rg()#look for a free register
+                        names2[p[1]] = r#add name,register to dictionary
+                        rg[r]=p[3]
+                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='<' and len(stack)==1):
+                        names[p[1]] = p[3]#add name,expression to the dictionary
+                        r=get_free_rg()#look for a free register
+                        names2[p[1]] = r#add name,register to dictionary
+                        rg[r]=p[3]
+                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='>' and len(stack)==0):
+                        names[p[1]] = p[3]#add name,expression to the dictionary
+                        r=get_free_rg()#look for a free register
+                        names2[p[1]] = r#add name,register to dictionary
+                        rg[r]=p[3]
+                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='>' and len(stack)==1):
+                        names[p[1]] = p[3]#add name,expression to the dictionary
+                        r=get_free_rg()#look for a free register
+                        names2[p[1]] = r#add name,register to dictionary
+                        rg[r]=p[3]
+                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                else:
+                    names[p[1]] = p[3]#add name,expression to the dictionary
+                    r=get_free_rg()#look for a free register
+                    names2[p[1]] = r#add name,register to dictionary
+                    rg[r]=p[3]#store the value into the register
                 
         else:
-                names[p[1]] = rg[p[3]]#add name,expression to the dictionary
-                r=get_free_rg()#look for a free register
-                names2[p[1]] = r#add name,register to dictionary
-                rg[r]=rg[p[3]]#store the value into the register
+                if (len(stack)!=0):
+                    op=stack.pop()
+                    if(op=='<' and len(stack)==0):
+                        names[p[1]] = rg[p[3]]#add name,expression to the dictionary
+                        r=get_free_rg()#look for a free register
+                        names2[p[1]] = r#add name,register to dictionary
+                        rg[r]=rg[p[3]]
+                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='<' and len(stack)==1):
+                        names[p[1]] = rg[p[3]]#add name,expression to the dictionary
+                        r=get_free_rg()#look for a free register
+                        names2[p[1]] = r#add name,register to dictionary
+                        rg[r]=rg[p[3]]
+                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='>' and len(stack)==0):
+                        names[p[1]] = rg[p[3]]#add name,expression to the dictionary
+                        r=get_free_rg()#look for a free register
+                        names2[p[1]] = r#add name,register to dictionary
+                        rg[r]=rg[p[3]]
+                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                    if(op=='>' and len(stack)==1):
+                        names[p[1]] = rg[p[3]]#add name,expression to the dictionary
+                        r=get_free_rg()#look for a free register
+                        names2[p[1]] = r#add name,register to dictionary
+                        rg[r]=rg[p[3]]
+                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        print instr
+                        file_asm.write("\t"+instr+"\n")
+                        return
+                else:
+                    names[p[1]] = rg[p[3]]#add name,expression to the dictionary
+                    r=get_free_rg()#look for a free register
+                    names2[p[1]] = r#add name,register to dictionary
+                    rg[r]=rg[p[3]]#store the value into the register
         instr="MOV "+r+" ,#"+str(rg[r])
         print instr
         file_asm.write("\t"+instr+"\n")
@@ -282,34 +391,37 @@ def p_expression_binop(p):#expression defined as a recursion on itself
     	#print "RS"
         rg[p[0]]=int(rg[p[1]]>rg[p[3]])
         instr1= "CMP " +p[1] +", "+p[3]
-        if(rg[p[1]]>rg[p[3]]):	
-            instr2= "MOVGT " + p[0]+ ", #1"
-        else:
-            instr2= "MOVLE " + p[0]+ ", #0"
+        stack.append('>')
+        stack.append('>')
+        # if(rg[p[1]]>rg[p[3]]):	
+        #     instr2= "MOVGT " + p[0]+ ", #1"
+        # else:
+        #     instr2= "MOVLE " + p[0]+ ", #0"
 	
         print instr1
-        print instr2
+        # print instr2
         file_asm.write("\t"+instr1+"\n") 
-        file_asm.write("\t"+instr2+"\n") 
+        # file_asm.write("\t"+instr2+"\n") 
 
     elif p[2] == '<':#Lesser than
         # p[0] = p[1] < p[3]
     	#print "RS"
         rg[p[0]]=int(rg[p[1]]<rg[p[3]])
-        instr1= "CMP" +p[1] +", "+p[3]
-        if(rg[p[1]]<rg[p[3]]):	
-            instr2= "MOVLT " + p[0]+ ", #1"
-        else:
-            instr2= "MOVGE " + p[0]+ ", #0"
+        instr1= "CMP " +p[1] +", "+p[3]
+        stack.append('<')
+        stack.append('<')
+        # if(rg[p[1]]<rg[p[3]]):	
+        #     instr2= "MOVLT " + p[0]+ ", #1"
+        # else:
+        #     instr2= "MOVGE " + p[0]+ ", #0"
 	
         print instr1
-        print instr2
+        # print instr2
         file_asm.write("\t"+instr1+"\n") 
-        file_asm.write("\t"+instr2+"\n") 
+        # file_asm.write("\t"+instr2+"\n") 
 
 def p_expression_ternop(p):#expression defined as a recursion on itself
-    '''expression : NAME '>' NAME '?' NAME '=' NUMBER ':' NAME '=' NUMBER
-                  | NAME '<' NAME '?' NAME '=' NUMBER ':' NAME '=' NUMBER'''
+    '''statement : expression '?' statement ':' statement'''
                     #NAME '<' NAME '?' NAME '=' NUMBER ':' NAME '=' NUMBER
     # p[0]          p[1]        p[3]   p[5]    p[7]         p[9]    p[11]
     
@@ -317,92 +429,92 @@ def p_expression_ternop(p):#expression defined as a recursion on itself
     
     global _mainr
     global _l
-    if(_l!=''):
-        queue.put(_l)
+    # if(_l!=''):
+    #     queue.put(_l)
         
-    _mainr.append(get_free_rg())
+    # _mainr.append(get_free_rg())
     
-    _l=_mainr.pop()
+    # _l=_mainr.pop()
    
-    queue.put(_l)
+    # queue.put(_l)
 
 
-    #print _l
+#     #print _l
 
-    if ((p[1] == "error") | (p[3]=="error") | (p[5]=="error")| (p[9]=="error")):
-    	print("Ternop:Cannot perform operation\t ;Undefined variable name")
-    	return
+#     if ((p[1] == "error") | (p[3]=="error") | (p[5]=="error")| (p[9]=="error")):
+#     	print("Ternop:Cannot perform operation\t ;Undefined variable name")
+#     	return
  
     
     
-    if(p[0]==None):
-        p[0]=_l
-    p[1]=names2[p[1]]
-    p[3]=names2[p[3]]
-    #print p[1]
-    #print p[3]
+#     if(p[0]==None):
+#         p[0]=_l
+#     p[1]=names2[p[1]]
+#     p[3]=names2[p[3]]
+#     #print p[1]
+#     #print p[3]
     
-    if p[2] == '>':#Greater than 
-        # p[0] = p[1] > p[3]
-    	#print "RS"
-        rg[p[0]]=int(rg[p[1]]>rg[p[3]])
-        instr1= "CMP " +p[1] +", "+p[3]
-        if(rg[p[1]]>rg[p[3]]):	
-            rg[names2[p[5]]]=p[7]#store the value into the register
-            instr2="MOVGE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])    
+#     if p[2] == '>':#Greater than 
+#         # p[0] = p[1] > p[3]
+#     	#print "RS"
+#         rg[p[0]]=int(rg[p[1]]>rg[p[3]])
+#         instr1= "CMP " +p[1] +", "+p[3]
+#         if(rg[p[1]]>rg[p[3]]):	
+#             rg[names2[p[5]]]=p[7]#store the value into the register
+#             instr2="MOVGE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])    
             
-            print instr1
-            print instr2
-            file_asm.write("\t"+instr1+"\n") 
-            file_asm.write("\t"+instr2+"\n")
-            rg[names2[p[9]]]=p[11]#store the value into the register
-            instr2="MOVLT "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])
-            print instr2
-            file_asm.write("\t"+instr2+"\n")
-        else:
+#             print instr1
+#             print instr2
+#             file_asm.write("\t"+instr1+"\n") 
+#             file_asm.write("\t"+instr2+"\n")
+#             rg[names2[p[9]]]=p[11]#store the value into the register
+#             instr2="MOVLT "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])
+#             print instr2
+#             file_asm.write("\t"+instr2+"\n")
+#         else:
 
-            rg[names2[p[9]]]=p[11]#store the value into the register
-            instr2="MOVLT "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])   
+#             rg[names2[p[9]]]=p[11]#store the value into the register
+#             instr2="MOVLT "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])   
             
-            print instr1
-            print instr2
-            file_asm.write("\t"+instr1+"\n") 
-            file_asm.write("\t"+instr2+"\n")   
-            rg[names2[p[5]]]=p[7]#store the value into the register
-            instr2="MOVGE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])
-            print instr2
-            file_asm.write("\t"+instr2+"\n")
+#             print instr1
+#             print instr2
+#             file_asm.write("\t"+instr1+"\n") 
+#             file_asm.write("\t"+instr2+"\n")   
+#             rg[names2[p[5]]]=p[7]#store the value into the register
+#             instr2="MOVGE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])
+#             print instr2
+#             file_asm.write("\t"+instr2+"\n")
 
             
-    if p[2] == '<':#Lesser than 
-        # p[0] = p[1] > p[3]
-    	#print "RS"
-        rg[p[0]]=int(rg[p[1]]>rg[p[3]])
-        instr1= "CMP " +p[1] +", "+p[3]
-        if(rg[p[1]]<rg[p[3]]):
-            rg[names2[p[5]]]=p[7]#store the value into the register
-            instr2="MOVLT "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])   
+#     if p[2] == '<':#Lesser than 
+#         # p[0] = p[1] > p[3]
+#     	#print "RS"
+#         rg[p[0]]=int(rg[p[1]]>rg[p[3]])
+#         instr1= "CMP " +p[1] +", "+p[3]
+#         if(rg[p[1]]<rg[p[3]]):
+#             rg[names2[p[5]]]=p[7]#store the value into the register
+#             instr2="MOVLT "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])   
             
-            print instr1
-            print instr2
-            file_asm.write("\t"+instr1+"\n") 
-            file_asm.write("\t"+instr2+"\n")
-            rg[names2[p[9]]]=p[11]#store the value into the register
-            instr2="MOVGE "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])
-            print instr2 
-            file_asm.write("\t"+instr2+"\n")    
-        else:
-            rg[names2[p[9]]]=p[11]#store the value into the register
-            instr2="MOVGE "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])    
+#             print instr1
+#             print instr2
+#             file_asm.write("\t"+instr1+"\n") 
+#             file_asm.write("\t"+instr2+"\n")
+#             rg[names2[p[9]]]=p[11]#store the value into the register
+#             instr2="MOVGE "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])
+#             print instr2 
+#             file_asm.write("\t"+instr2+"\n")    
+#         else:
+#             rg[names2[p[9]]]=p[11]#store the value into the register
+#             instr2="MOVGE "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])    
             
-            print instr1
-            print instr2
-            file_asm.write("\t"+instr1+"\n") 
-            file_asm.write("\t"+instr2+"\n")
-            rg[names2[p[5]]]=p[7]#store the value into the register
-            instr2="MOVLT "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])
-            print instr2
-            file_asm.write("\t"+instr2+"\n")   
+#             print instr1
+#             print instr2
+#             file_asm.write("\t"+instr1+"\n") 
+#             file_asm.write("\t"+instr2+"\n")
+#             rg[names2[p[5]]]=p[7]#store the value into the register
+#             instr2="MOVLT "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])
+#             print instr2
+#             file_asm.write("\t"+instr2+"\n")   
 
 
 
