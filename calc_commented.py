@@ -109,7 +109,8 @@ def p_statement_assign(p):
         print instr
         file_asm.write("\t"+instr+"\n")
         return
-    if((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31)))):
+    # print p[3]
+    if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):
         print "Assignment error:number out of range.Registers are 32 bit"
     else:  
         names[p[1]] = p[3]#add name,expression to the dictionary
@@ -454,8 +455,8 @@ with open("input/input.txt") as f:
         #print rg
     print "register dump "
     print rg
-    print names
-    print names2
+    # print names
+    # print names2
     
 file_asm.write(asm_end)
 file_asm.close()
