@@ -75,7 +75,7 @@ precedence = (
 rg = {'r0' : -99, 'r1' : -99, 'r2' : -99, 'r3' : -99, 'r4' : -99, 'r5' : -99, 'r6' : -99, 'r7' : -99,'r8' : -99, 'r9' : -99, 'r10' : -99, 'r11' : -99, 'r12' : -99} # register set populated with values
 names={}#dictionary that holds name,value pair
 names2={}#dictionary that holds name,register
-stack=[]
+stack=[]#store operators <, > for use during generating MOV{LE,LT,GT,GE} instructions
 queue=Queue.Queue()
 #internal variables
 _mainr=[]#registers being used for storing calculation results
@@ -114,28 +114,28 @@ def p_statement_assign(p):
                     if(op=='<' and len(stack)==0):
                         names[p[1]] = p[3]
                         rg[names2[p[1]]]=p[3]
-                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='<' and len(stack)==1):
                         names[p[1]] = p[3]
                         rg[names2[p[1]]]=p[3]
-                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='>' and len(stack)==0):
                         names[p[1]] = p[3]
                         rg[names2[p[1]]]=p[3]
-                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='>' and len(stack)==1):
                         names[p[1]] = p[3]
                         rg[names2[p[1]]]=p[3]
-                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
@@ -167,7 +167,7 @@ def p_statement_assign(p):
                         r=get_free_rg()#look for a free register
                         names2[p[1]] = r#add name,register to dictionary
                         rg[r]=p[3]
-                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
@@ -176,7 +176,7 @@ def p_statement_assign(p):
                         r=get_free_rg()#look for a free register
                         names2[p[1]] = r#add name,register to dictionary
                         rg[r]=p[3]
-                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
@@ -185,7 +185,7 @@ def p_statement_assign(p):
                         r=get_free_rg()#look for a free register
                         names2[p[1]] = r#add name,register to dictionary
                         rg[r]=p[3]
-                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
@@ -194,7 +194,7 @@ def p_statement_assign(p):
                         r=get_free_rg()#look for a free register
                         names2[p[1]] = r#add name,register to dictionary
                         rg[r]=p[3]
-                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
@@ -212,7 +212,7 @@ def p_statement_assign(p):
                         r=get_free_rg()#look for a free register
                         names2[p[1]] = r#add name,register to dictionary
                         rg[r]=rg[p[3]]
-                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
@@ -221,7 +221,7 @@ def p_statement_assign(p):
                         r=get_free_rg()#look for a free register
                         names2[p[1]] = r#add name,register to dictionary
                         rg[r]=rg[p[3]]
-                        instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
@@ -230,7 +230,7 @@ def p_statement_assign(p):
                         r=get_free_rg()#look for a free register
                         names2[p[1]] = r#add name,register to dictionary
                         rg[r]=rg[p[3]]
-                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
@@ -239,7 +239,7 @@ def p_statement_assign(p):
                         r=get_free_rg()#look for a free register
                         names2[p[1]] = r#add name,register to dictionary
                         rg[r]=rg[p[3]]
-                        instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+                        instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
                         print instr
                         file_asm.write("\t"+instr+"\n")
                         return
