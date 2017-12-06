@@ -1,8 +1,8 @@
-a=3
-d=5
+a=8
+b=3
 c=4
-e=6
-c > d ? f = 5 : e = 10
-a < e ? c = 10 : d = 5
 d=2
-f=c+d+e+(d+e+(e+a))
+e=1
+g=a+b-c*d/a%e
+a>b?g=5:g=3
+a>>d
