@@ -103,7 +103,13 @@ def p_statement_assign(p):
     'statement : NAME "=" expression'#tokens in an assignment statement
     #print "p_statement_assign"
     if (p[1] in names):
-        rg[names2[p[1]]]=p[3]#store the value into the register
+        if(isinstance(p[3], int)):
+            if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):
+                print "Assignment error:number out of range.Registers are 32 bit"
+            else:
+                rg[names2[p[1]]]=p[3]#store the value into the register
+        else:    
+            rg[names2[p[1]]]=rg[p[3]]#store the value into the register
         # print p[3]
         instr="MOV "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
         print instr
@@ -167,7 +173,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
 
     if p[2] == '+':#addition
         # p[0] = p[1] + p[3]
-       
+        # print p[0], p[1], p[3]
         rg[p[0]]=rg[p[1]]+rg[p[3]]
      
         instr="ADD " + p[0] + " ,"+p[1] +" ,"+p[3]
