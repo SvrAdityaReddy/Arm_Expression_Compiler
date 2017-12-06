@@ -32,8 +32,9 @@ t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
 
 
 def t_NUMBER(t):
-    r'\d+'#using raw string notation,repetitions of digits will also match
+    r'-?\d+'#using raw string notation,repetitions of digits will also match
     t.value = int(t.value)
+    print t
     return t
 
 t_ignore = " \t"#ignore tabspaces
@@ -105,7 +106,7 @@ def p_statement_assign(p):
     
     if (p[1] in names):#re-assigning
         if(isinstance(p[3], int)):#number
-            if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):#out of range
+            if(((p[3]>(pow(2,31)-1))|(p[3]<(-pow(2,31))))&p[3]!=0):#out of range
                 print "Assignment error:number out of range.Registers are 32 bit"
             else:#in range,number
                 if (len(stack)!=0):
@@ -153,9 +154,10 @@ def p_statement_assign(p):
     # print p[3]
     else:#new variable
         #print names
-        #print p[3]
+        print p[3]
         if(isinstance(p[3], int)):#p[3] is a number
-            if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):#out of range
+	    #print "int"
+            if(((p[3]>(pow(2,31)-1))|(p[3]<(-pow(2,31))))&p[3]!=0):#out of range
                 print "Assignment error:number out of range.Registers are 32 bit"
             else:#in range,number
                 if (len(stack)!=0):
