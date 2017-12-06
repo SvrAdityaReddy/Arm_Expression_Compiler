@@ -102,30 +102,46 @@ def get_free_rg():
 def p_statement_assign(p):
     'statement : NAME "=" expression'#tokens in an assignment statement
     #print "p_statement_assign"
-    if (p[1] in names):
-        if(isinstance(p[3], int)):
-            if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):
+    
+    if (p[1] in names):#re-assigning
+        if(isinstance(p[3], int)):#number
+            if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):#out of range
                 print "Assignment error:number out of range.Registers are 32 bit"
-            else:
+            else:#in range,number
+                names[p[1]] = p[3]
                 rg[names2[p[1]]]=p[3]#store the value into the register
-        else:    
+        else:#register
+            names[p[1]] = rg[p[3]]
             rg[names2[p[1]]]=rg[p[3]]#store the value into the register
         # print p[3]
         instr="MOV "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
         print instr
         file_asm.write("\t"+instr+"\n")
         return
+    
     # print p[3]
-    if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):
-        print "Assignment error:number out of range.Registers are 32 bit"
-    else:  
-        names[p[1]] = p[3]#add name,expression to the dictionary
-        r=get_free_rg()#look for a free register
-        names2[p[1]] = r#add name,register to dictionary
-        rg[r]=p[3]#store the value into the register
+    else:#new variable
+        #print names
+        #print p[3]
+        if(isinstance(p[3], int)):#p[3] is a number
+            if(((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31))))&p[3]!=0):#out of range
+                print "Assignment error:number out of range.Registers are 32 bit"
+            else:#in range,number
+                names[p[1]] = p[3]#add name,expression to the dictionary
+                r=get_free_rg()#look for a free register
+                names2[p[1]] = r#add name,register to dictionary
+                rg[r]=p[3]#store the value into the register
+                
+        else:
+                names[p[1]] = rg[p[3]]#add name,expression to the dictionary
+                r=get_free_rg()#look for a free register
+                names2[p[1]] = r#add name,register to dictionary
+                rg[r]=rg[p[3]]#store the value into the register
         instr="MOV "+r+" ,#"+str(rg[r])
         print instr
         file_asm.write("\t"+instr+"\n")
+    
+        
 
 
 def p_statement_expr(p):
@@ -459,10 +475,14 @@ with open("input/input.txt") as f:
         yacc.parse(line)
         #print "register dump "
         #print rg
+    print "\ndebug output:\n"
     print "register dump "
     print rg
-    # print names
-    # print names2
+    print "\n"
+    print "dictionary of variable,value pairs"
+    print names
+    print "\n dictionary of variable,register mappings"
+    print names2
     
 file_asm.write(asm_end)
 file_asm.close()
