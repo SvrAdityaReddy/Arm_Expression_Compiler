@@ -584,7 +584,7 @@ file_asm = open("autogen.s",'w')
 file_asm.write(asm_beg)
 
 #open the input file and parse it line by line
-with open("input/input.txt") as f:
+with open("../input/input.txt") as f:
     for line in f:
         yacc.parse(line)
         #print "register dump "
