@@ -34,7 +34,7 @@ t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
 def t_NUMBER(t):
     r'-?\d+'#using raw string notation,repetitions of digits will also match
     t.value = int(t.value)
-    print t
+    #print t
     return t
 
 t_ignore = " \t"#ignore tabspaces
@@ -154,7 +154,7 @@ def p_statement_assign(p):
     # print p[3]
     else:#new variable
         #print names
-        print p[3]
+        #print p[3]
         if(isinstance(p[3], int)):#p[3] is a number
 	    #print "int"
             if(((p[3]>(pow(2,31)-1))|(p[3]<(-pow(2,31))))&p[3]!=0):#out of range
@@ -258,7 +258,7 @@ def p_statement_assign(p):
 def p_statement_expr(p):
     'statement : expression'
     #print "p_statement_expr"
-    print(p[1])
+    #print(p[1])
 
 def p_expression_binop(p):#expression defined as a recursion on itself
     '''expression : expression '+' expression
