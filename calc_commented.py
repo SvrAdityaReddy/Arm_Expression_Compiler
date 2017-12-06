@@ -6,6 +6,7 @@
 # -----------------------------------------------------------------------------
 
 import sys
+import os
 import Queue
 sys.path.insert(0, "../..")#add to search path
 
@@ -101,6 +102,13 @@ def get_free_rg():
 def p_statement_assign(p):
     'statement : NAME "=" expression'#tokens in an assignment statement
     #print "p_statement_assign"
+    if (p[1] in names):
+        rg[names2[p[1]]]=p[3]#store the value into the register
+        # print p[3]
+        instr="MOV "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
+        print instr
+        file_asm.write("\t"+instr+"\n")
+        return
     if((p[3]>(pow(2,31)-1))|(p[3]<(pow(2,-31)))):
         print "Assignment error:number out of range.Registers are 32 bit"
     else:  
@@ -182,17 +190,30 @@ def p_expression_binop(p):#expression defined as a recursion on itself
         
     elif p[2] == '/':
         #p[0] = p[1] / p[3]
-      
-        if(rg[p[3]]==0):
-           print "division by zero error"
-           print "register dump "
-           print rg
+        # print p[0], p[1], p[2]
+        # print rg
+        try:
+            rg[p[0]]=rg[p[1]]/rg[p[3]]
+            instr= "SDIV " + p[0] + ", "+p[1] +", "+p[3]
+            print instr
+            file_asm.write("\t"+instr+"\n")
+        except ZeroDivisionError:
+            print "division by zero error"
+            print "register dump "
+            print rg
+            os.remove("autogen.s")
+            print "asm file not generated"
+            exit(ZeroDivisionError)
+        # if(rg[p[3]]==0):
+        #    print "division by zero error"
+        #    print "register dump "
+        #    print rg
            
-        else:
-           rg[p[0]]=rg[p[1]]/rg[p[3]]
-           instr= "SDIV " + p[0] + ", "+p[1] +", "+p[3]
-           print instr
-           file_asm.write("\t"+instr+"\n")
+        # else:
+        #    rg[p[0]]=rg[p[1]]/rg[p[3]]
+        #    instr= "SDIV " + p[0] + ", "+p[1] +", "+p[3]
+        #    print instr
+        #    file_asm.write("\t"+instr+"\n")
 
     elif p[2] == '%':
     	#p[0] = p[1] % p[3]
@@ -305,21 +326,29 @@ def p_expression_ternop(p):#expression defined as a recursion on itself
         instr1= "CMP " +p[1] +", "+p[3]
         if(rg[p[1]]>rg[p[3]]):	
             rg[names2[p[5]]]=p[7]#store the value into the register
-            instr2="MOVLE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])    
+            instr2="MOVGE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])    
             
             print instr1
             print instr2
             file_asm.write("\t"+instr1+"\n") 
             file_asm.write("\t"+instr2+"\n")
+            rg[names2[p[9]]]=p[11]#store the value into the register
+            instr2="MOVLT "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])
+            print instr2
+            file_asm.write("\t"+instr2+"\n")
         else:
 
             rg[names2[p[9]]]=p[11]#store the value into the register
-            instr2="MOVLE "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])   
+            instr2="MOVLT "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])   
             
             print instr1
             print instr2
             file_asm.write("\t"+instr1+"\n") 
             file_asm.write("\t"+instr2+"\n")   
+            rg[names2[p[5]]]=p[7]#store the value into the register
+            instr2="MOVGE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])
+            print instr2
+            file_asm.write("\t"+instr2+"\n")
 
             
     if p[2] == '<':#Lesser than 
@@ -329,19 +358,27 @@ def p_expression_ternop(p):#expression defined as a recursion on itself
         instr1= "CMP " +p[1] +", "+p[3]
         if(rg[p[1]]<rg[p[3]]):
             rg[names2[p[5]]]=p[7]#store the value into the register
-            instr2="MOVLE "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])   
+            instr2="MOVLT "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])   
             
             print instr1
             print instr2
             file_asm.write("\t"+instr1+"\n") 
             file_asm.write("\t"+instr2+"\n")
+            rg[names2[p[9]]]=p[11]#store the value into the register
+            instr2="MOVGE "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])
+            print instr2 
+            file_asm.write("\t"+instr2+"\n")    
         else:
             rg[names2[p[9]]]=p[11]#store the value into the register
-            instr2="MOVGT "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])    
+            instr2="MOVGE "+names2[p[9]]+" ,#"+str(rg[names2[p[9]]])    
             
             print instr1
             print instr2
             file_asm.write("\t"+instr1+"\n") 
+            file_asm.write("\t"+instr2+"\n")
+            rg[names2[p[5]]]=p[7]#store the value into the register
+            instr2="MOVLT "+names2[p[5]]+" ,#"+str(rg[names2[p[5]]])
+            print instr2
             file_asm.write("\t"+instr2+"\n")   
 
 
@@ -410,13 +447,15 @@ file_asm = open("autogen.s",'w')
 file_asm.write(asm_beg)
 
 #open the input file and parse it line by line
-with open("input.txt") as f:
+with open("input/input.txt") as f:
     for line in f:
         yacc.parse(line)
         #print "register dump "
         #print rg
     print "register dump "
     print rg
+    print names
+    print names2
     
 file_asm.write(asm_end)
 file_asm.close()
