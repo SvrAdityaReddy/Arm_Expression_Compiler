@@ -20,7 +20,7 @@ asm_end="stop B stop\n\tENDFUNC\n\tEND"
     
 #declaring the tokens for the lexer
 tokens = (
-    'NAME', 'NUMBER','LS','RS',
+    'NAME', 'NUMBER','LS','RS','IF','THEN','ELSE',
 )
 
 literals = ['=', '+', '-', '*', '<','>','/', '%','(', ')','?',':']#arithmetic operators
@@ -45,6 +45,18 @@ def t_LS(t):
 
 def t_RS(t):
     r'>>'
+    return t
+
+def t_IF(t):
+    r'if'
+    return t
+
+def t_ELSE(t):
+    r'else'
+    return t
+
+def t_THEN(t):
+    r'then'
     return t
 
 def t_newline(t):
@@ -423,7 +435,8 @@ def p_expression_binop(p):#expression defined as a recursion on itself
         # file_asm.write("\t"+instr2+"\n") 
 
 def p_expression_ternop(p):#expression defined as a recursion on itself
-    '''statement : expression '?' statement ':' statement'''
+    '''statement : expression '?' statement ':' statement
+                 | IF expression THEN statement ELSE statement'''
                     #NAME '<' NAME '?' NAME '=' NUMBER ':' NAME '=' NUMBER
     # p[0]          p[1]        p[3]   p[5]    p[7]         p[9]    p[11]
     
