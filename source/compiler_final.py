@@ -101,9 +101,10 @@ no_of_regs=12
 def get_free_rg():
     global _mainr
     global _l
-    for i in range(no_of_regs):
+    for i in range(no_of_regs+1):
         r='r'+str(i)#register naming convention
         if((rg[r]==-99) and (r not in _mainr) and (r!=_l)):
+            #print "free register" + r
             return r#found a free register,return it
     # rg[queue.get()]=0
     # rg[queue.get()]=0
@@ -290,12 +291,14 @@ def p_expression_binop(p):#expression defined as a recursion on itself
     global _l
     if(_l!=''):
         queue.put(_l)
-        
-    _mainr.append(get_free_rg())
+    if((p[2]=='<') | (p[2]=='>')):
+        pass
+    else:
+        _mainr.append(get_free_rg())
     
-    _l=_mainr.pop()
+        _l=_mainr.pop()
    
-    queue.put(_l)
+        queue.put(_l)
 
 
     #print _l
