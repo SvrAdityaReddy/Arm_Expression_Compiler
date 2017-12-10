@@ -654,7 +654,7 @@ file_asm.write(asm_beg)
 build_flag=1#set to 1 to enable automatic buidling
 
 #open the input file and parse it line by line
-with open("input/input.txt") as f:
+with open("../input/input.txt") as f:
     for line in f:
         yacc.parse(line)
         #print "register dump "
