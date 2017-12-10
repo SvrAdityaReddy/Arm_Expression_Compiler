@@ -116,6 +116,12 @@ stop B stop
 
 ```
 
+# Team
+
+Deepika Raj (https://github.com/depikaraj) <br>
+Prashanthi Kadambi (https://github.com/amateurcoder10) <br>
+Seelapureddy Venkata Rama Aditya Reddy (https://github.com/SvrAdityaReddy) <br>
+
 # References
 [1] [Writing Parsers and Compilers with PLY by David Beazley](http://www.dabeaz.com/ply/PLYTalk)<br>
 [2] [Python Lex-Yacc](https://github.com/dabeaz/ply/)
