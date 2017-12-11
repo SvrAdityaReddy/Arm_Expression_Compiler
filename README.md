@@ -74,7 +74,7 @@ d=2
 e=1
 g=a+b-c*d/a%e
 a>b?f=5:f=3
-if a>b then f=5 else f=3
+if a<b then f=5 else g=3
 a>>d
 c<<e
 h=a%b
@@ -83,7 +83,7 @@ h=a%b
 # Output File Generated
 
 ```
-AREA     appcode, CODE, READONLY
+		AREA     appcode, CODE, READONLY
 	EXPORT __main
 	ENTRY
 __main  FUNCTION
@@ -96,23 +96,49 @@ __main  FUNCTION
 	MUL r6, r2, r3
 	SDIV r7, r6, r0
 	SDIV r8, r7, r4
-	MLS r8,r8, r4, r7
+	MLS r8, r8, r4, r7
 	SUB r9 ,r5 ,r8
 	MOV r10 ,#11
 	CMP r0, r1
 	MOVGT r11 ,#5
 	MOVLE r11 ,#3
 	CMP r0, r1
-	MOVGT r11 ,#5
-	MOVLE r11 ,#3
+	MOVLT r11 ,#5
+	MOVGE r10 ,#3
 	LSR r12, r0, r3
 	LSL r5, r2, r4
 	SDIV r6, r0, r1
-	MLS r6,r6, r1, r0
+	MLS r6, r6, r1, r0
 	MOV r7 ,#2
 stop B stop
 	ENDFUNC
 	END
+
+```
+
+# Debug Dump
+
+For testing purpose we are also replicating those r12 registers of arm cortex M4 and maintaining a dictionary of variable, value pairs and dictionary of variable, register pairs for both debugging and reclaiming of registers for further usage if required. <br>
+
+Debug dump for the above test file is as follow.
+
+```
+register dump 
+{'r12': 2, 'r10': 3, 'r11': 5, 'r4': 1, 'r5': 8, 'r6': 2, 'r7': 2, 'r0': 8, 'r1': 3, 'r2': 4, 'r3': 2, 'r8': 0, 'r9': 0}
+
+
+dictionary of variable,value pairs
+{'a': 8, 'b': 3, 'c': 4, 'd': 2, 'e': 1, 'f': 5, 'g': 3, 'h': 2}
+
+ dictionary of variable,register mappings
+{'a': 'r0',
+ 'b': 'r1',
+ 'c': 'r2',
+ 'd': 'r3',
+ 'e': 'r4',
+ 'f': 'r11',
+ 'g': 'r10',
+ 'h': 'r7'}
 
 ```
 

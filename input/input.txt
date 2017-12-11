@@ -5,7 +5,7 @@ d=2
 e=1
 g=a+b-c*d/a%e
 a>b?f=5:f=3
-if a>b then f=5 else f=3
+if a<b then f=5 else g=3
 a>>d
 c<<e
 h=a%b
