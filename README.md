@@ -83,7 +83,7 @@ h=a%b
 # Output File Generated
 
 ```
-		AREA     appcode, CODE, READONLY
+AREA     appcode, CODE, READONLY
 	EXPORT __main
 	ENTRY
 __main  FUNCTION
