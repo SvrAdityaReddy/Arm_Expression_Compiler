@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -----------------------------------------------------------------------------
 # A program to evaluate an arithmetic expression and generate ARM specific assembly code
 # Both operands are present in registers
