@@ -10,7 +10,8 @@ confinement: strict # use 'strict' once you have the right plugs and slots
 
 apps: 
   aec-arm:
-    command: usr/bin/python $SNAP/lib/python2.7/site-packages/aec/arm_expression_compiler_nobat.py
+    #command: usr/bin/python $SNAP/lib/python2.7/site-packages/aec/arm_expression_compiler_nobat.py
+    command: ./bin/aec_arm
     plugs:
       - home # to enable reading or creating files
 
