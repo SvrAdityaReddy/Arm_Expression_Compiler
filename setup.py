@@ -32,7 +32,7 @@ setup(
     description='convert expressions to arm cotrex M4 code',
     url='https://github.com/SvrAdityaReddy',
     long_description=get_long_description(),
-    py_modules=[package_name],
+    packages=[package_name],
     entry_points={
         'console_scripts': [
             'aec = aec.arm_expression_compiler_nobat:main'
