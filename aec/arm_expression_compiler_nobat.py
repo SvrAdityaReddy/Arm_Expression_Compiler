@@ -467,7 +467,7 @@ def main():
         input_file="input.txt"
     else:
         input_file=sys.argv[2]
-    with open(input_file) as f:
+    with open(input_file, 'r') as f:
         for line in f:
             yacc.parse(line)
         print "\ndebug output:\n"
