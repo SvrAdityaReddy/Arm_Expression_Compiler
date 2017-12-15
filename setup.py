@@ -27,7 +27,6 @@ def get_long_description():
 
 setup(
     name=package_name,
-    version=get_version(),
     author='depikaraj,amateurcoder10,SvrAdityaReddy',
     author_email='deepika.raj.93@gmail.com,Prashanthi.S.K@iiitb.org,Aditya.seelapureddy@yahoo.com',
     description='convert expressions to arm cotrex M4 code',

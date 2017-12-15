@@ -12,8 +12,6 @@ import Queue
 from subprocess import Popen
 from pprint import pprint
 
-__version__ = 'master'
-
 sys.path.insert(0, "../..")#add to search path
 
 if sys.version_info[0] >= 3:#if python 3 or greater,use input instead of raw_input
