@@ -4,7 +4,7 @@
 from setuptools import setup
 
 
-package_name = 'arm_expression_compiler'
+package_name = 'arm_expression_compiler_nobat'
 filename = 'source/'+'arm_expression_compiler' + '_nobat'+'.py'
 
 
