@@ -458,15 +458,16 @@ import ply.yacc as yacc
 yacc.yacc()
 
 def main():
-    global file_asm
-    file_asm = open("autogen.s",'w')
-    file_asm.write(asm_beg)
 
     #open the input file and parse it line by line
     if (len(sys.argv) <= 2):
-        input_file="input.txt"
+        print "input format: aec <input_file.txt>"
+        exit()
     else:
         input_file=sys.argv[2]
+    global file_asm
+    file_asm = open("autogen.s",'w')
+    file_asm.write(asm_beg)
     with open(input_file, 'r') as f:
         for line in f:
             yacc.parse(line)
