@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -----------------------------------------------------------------------------
 # A program to evaluate an arithmetic expression and generate ARM specific assembly code
 # Both operands are present in registers
@@ -453,6 +454,7 @@ def p_error(p):
         print("Syntax error at EOF")
 
 #build the parser
+<<<<<<< HEAD
 def main():
     import ply.yacc as yacc
     yacc.yacc()
@@ -480,3 +482,37 @@ def main():
 
 if __name__ == '__main__':
     main()
+=======
+import ply.yacc as yacc
+yacc.yacc()
+
+file_asm = open("autogen.s",'w')
+file_asm.write(asm_beg)
+
+# build_flag=1#set to 1 to enable automatic buidling
+
+#open the input file and parse it line by line
+with open("../input/input.txt") as f:
+    for line in f:
+        yacc.parse(line)
+    print "\ndebug output:\n"
+    print "register dump "
+    print rg
+    print "\n"
+    print "dictionary of variable,value pairs"
+    pprint (names)
+    print "\n dictionary of variable,register mappings"
+    pprint (names2)
+    
+file_asm.write(asm_end)
+file_asm.close()
+
+# if(build_flag):
+#     print "\nBuild flag set! Automatically buidling project with auto-generated asm file"
+#     p = Popen("build.bat", cwd=r"C:\Users\Prashanthi S.K\Desktop\arm\compiler\Arm_Expression_Compiler")
+#     stdout, stderr = p.communicate()
+#     print "\nPrinting build log"
+#     build_log = open("log.txt")
+#     for line in build_log:
+#         print line,
+>>>>>>> 6ffd3479dd4878408519d2ccc093a18850b89c4e
