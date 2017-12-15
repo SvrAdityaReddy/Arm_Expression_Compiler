@@ -1,7 +1,5 @@
 # Arm_Expression_Compiler
 
-[![Snap Status](https://build.snapcraft.io/badge/SvrAdityaReddy/Arm_Expression_Compiler.svg)](https://build.snapcraft.io/user/SvrAdityaReddy/Arm_Expression_Compiler)
-
 # Problem Statement
 To read expressions and statements from a text file and generate ARM assembly instructions
 that can be run directly on Keil uVision IDE. The assembly instructions are specific to a generic
