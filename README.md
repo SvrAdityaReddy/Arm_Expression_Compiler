@@ -142,6 +142,29 @@ dictionary of variable,value pairs
 
 ```
 
+# Snap
+
+Now this is available as a snap package at [here](https://snapcraft.io/aec-arm/) <br>
+
+![image](https://user-images.githubusercontent.com/19650574/34036593-b5f3f1de-e1ab-11e7-90d1-6455da1467c2.png)
+
+### Snap Installation
+
+```sh
+
+$ sudo snap install aec-arm
+
+```
+
+### Snap Usage Instructions
+
+```sh
+
+$ aec-arm <input_file.txt>
+
+```
+An output file will be generated with name as autogen.s in the current working directory which can be run on keil simulator on successful execution.
+
 # Team
 
 Deepika Raj (https://github.com/depikaraj) <br>
@@ -150,4 +173,8 @@ Seelapureddy Venkata Rama Aditya Reddy (https://github.com/SvrAdityaReddy) <br>
 
 # References
 [1] [Writing Parsers and Compilers with PLY by David Beazley](http://www.dabeaz.com/ply/PLYTalk)<br>
-[2] [Python Lex-Yacc](https://github.com/dabeaz/ply/)
+[2] [Python Lex-Yacc](https://github.com/dabeaz/ply/)<br>
+[3] [Create your first snap](https://tutorials.ubuntu.com/tutorial/create-your-first-snap)<br>
+[4] [The python plugin](https://docs.snapcraft.io/reference/plugins/python)<br>
+[5] [Python Apps the Right Way: entry points and scripts](https://chriswarrick.com/blog/2014/09/15/python-apps-the-right-way-entry_points-and-scripts/)<br>
+[6] [Interfaces reference](https://docs.snapcraft.io/reference/interfaces)
