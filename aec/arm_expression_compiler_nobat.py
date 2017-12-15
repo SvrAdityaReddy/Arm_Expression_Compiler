@@ -113,7 +113,7 @@ def get_free_rg():
 #function for code-generation for an assignment;translate a=value to MOV Rn,#value
 def p_statement_assign(p):
     'statement : NAME "=" expression'#tokens in an assignment statement
-    #global file_asm
+    global file_asm
     if (p[1] in names):#re-assigning
         if(isinstance(p[3], int)):#number
             if(((p[3]>(pow(2,31)-1))|(p[3]<(-pow(2,31))))&p[3]!=0):#out of range
@@ -128,7 +128,7 @@ def p_statement_assign(p):
                             rg[names2[p[1]]]=p[3]
                         instr="MOVGE "+names2[p[1]]+" ,#"+str(p[3])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='<' and len(stack)==1):
                         if(res==True): 
@@ -136,7 +136,7 @@ def p_statement_assign(p):
                             rg[names2[p[1]]]=p[3]
                         instr="MOVLT "+names2[p[1]]+" ,#"+str(p[3])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='>' and len(stack)==0):
                         if(res==True): 
@@ -144,7 +144,7 @@ def p_statement_assign(p):
                             rg[names2[p[1]]]=p[3]
                         instr="MOVLE "+names2[p[1]]+" ,#"+str(p[3])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='>' and len(stack)==1):
                         if(res==True): 
@@ -152,7 +152,7 @@ def p_statement_assign(p):
                             rg[names2[p[1]]]=p[3]
                         instr="MOVGT "+names2[p[1]]+" ,#"+str(p[3])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                 else:
                     names[p[1]] = p[3]
@@ -163,7 +163,7 @@ def p_statement_assign(p):
         # print p[3]
         instr="MOV "+names2[p[1]]+" ,#"+str(rg[names2[p[1]]])
         print instr
-        #file_asm.write("\t"+instr+"\n")
+        file_asm.write("\t"+instr+"\n")
         return
     
     else:#new variable
@@ -182,7 +182,7 @@ def p_statement_assign(p):
                             rg[r]=p[3]
                         instr="MOVGE "+names2[p[1]]+" ,#"+str(p[3])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='<' and len(stack)==1):
                         names[p[1]] = p[3]#add name,expression to the dictionary
@@ -192,7 +192,7 @@ def p_statement_assign(p):
                             rg[r]=p[3]
                         instr="MOVLT "+names2[p[1]]+" ,#"+str(p[3])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='>' and len(stack)==0):
                         names[p[1]] = p[3]#add name,expression to the dictionary
@@ -202,7 +202,7 @@ def p_statement_assign(p):
                             rg[r]=p[3]
                         instr="MOVLE "+names2[p[1]]+" ,#"+str(p[3])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='>' and len(stack)==1):
                         names[p[1]] = p[3]#add name,expression to the dictionary
@@ -212,7 +212,7 @@ def p_statement_assign(p):
                             rg[r]=p[3]
                         instr="MOVGT "+names2[p[1]]+" ,#"+str(p[3])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                 else:
                     names[p[1]] = p[3]#add name,expression to the dictionary
@@ -232,7 +232,7 @@ def p_statement_assign(p):
                             rg[r]=rg[p[3]]
                         instr="MOVGE "+names2[p[1]]+" ,#"+str(rg[p[3]])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='<' and len(stack)==1):
                         names[p[1]] = rg[p[3]]#add name,expression to the dictionary
@@ -242,7 +242,7 @@ def p_statement_assign(p):
                             rg[r]=rg[p[3]]
                         instr="MOVLT "+names2[p[1]]+" ,#"+str(rg[p[3]])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='>' and len(stack)==0):
                         names[p[1]] = rg[p[3]]#add name,expression to the dictionary
@@ -252,7 +252,7 @@ def p_statement_assign(p):
                             rg[r]=rg[p[3]]
                         instr="MOVLE "+names2[p[1]]+" ,#"+str(rg[p[3]])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                     if(op=='>' and len(stack)==1):
                         names[p[1]] = rg[p[3]]#add name,expression to the dictionary
@@ -262,7 +262,7 @@ def p_statement_assign(p):
                             rg[r]=rg[p[3]]
                         instr="MOVGT "+names2[p[1]]+" ,#"+str(rg[p[3]])
                         print instr
-                        #file_asm.write("\t"+instr+"\n")
+                        file_asm.write("\t"+instr+"\n")
                         return
                 else:
                     names[p[1]] = rg[p[3]]#add name,expression to the dictionary
@@ -271,7 +271,7 @@ def p_statement_assign(p):
                     rg[r]=rg[p[3]]#store the value into the register
         instr="MOV "+r+" ,#"+str(rg[r])
         print instr
-        #file_asm.write("\t"+instr+"\n")
+        file_asm.write("\t"+instr+"\n")
     
         
 
@@ -291,7 +291,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
  		  | expression '>' expression'''
     global _mainr
     global _l
-    #global file_asm
+    global file_asm
     if(_l!=''):
         queue.put(_l)
     if((p[2]=='<') | (p[2]=='>')):
@@ -321,28 +321,28 @@ def p_expression_binop(p):#expression defined as a recursion on itself
      
         instr="ADD " + p[0] + " ,"+p[1] +" ,"+p[3]
         print instr
-        #file_asm.write("\t"+instr+"\n")
+        file_asm.write("\t"+instr+"\n")
         
     elif p[2] == '-':#subtraction
         
         rg[p[0]]=rg[p[1]]-rg[p[3]]
         instr= "SUB " + p[0] + " ,"+p[1] +" ,"+p[3]
         print instr
-        #file_asm.write("\t"+instr+"\n")
+        file_asm.write("\t"+instr+"\n")
         
     elif p[2] == '*':#multiplication
     
         rg[p[0]]=rg[p[1]]*rg[p[3]]
         instr= "MUL " + p[0] + ", "+p[1] +", "+p[3]
         print instr
-        #file_asm.write("\t"+instr+"\n")
+        file_asm.write("\t"+instr+"\n")
         
     elif p[2] == '/':
         try:
             rg[p[0]]=rg[p[1]]/rg[p[3]]
             instr= "SDIV " + p[0] + ", "+p[1] +", "+p[3]
             print instr
-            #file_asm.write("\t"+instr+"\n")
+            file_asm.write("\t"+instr+"\n")
         except ZeroDivisionError:
             print "division by zero error"
             print "register dump "
@@ -358,8 +358,8 @@ def p_expression_binop(p):#expression defined as a recursion on itself
             instr2= "MLS " + p[0] +", "+ p[0] + ", "+p[3] +", "+p[1]
             print instr1
             print instr2
-            #file_asm.write("\t"+instr1+"\n")
-            #file_asm.write("\t"+instr2+"\n")
+            file_asm.write("\t"+instr1+"\n")
+            file_asm.write("\t"+instr2+"\n")
         except ZeroDivisionError:
             print "modulus by zero is not defined"   
             print "register dump "
@@ -377,7 +377,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
             rg[p[0]]=rg[p[1]]>>rg[p[3]]
             instr= "LSR " + p[0] + ", "+p[1] +", "+p[3]
             print instr
-            #file_asm.write("\t"+instr+"\n")  
+            file_asm.write("\t"+instr+"\n")  
 
     elif p[2] == '<<':#Bitwise Left Shift or Multiply by 2
         if(rg[p[3]]<0):
@@ -388,7 +388,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
             rg[p[0]]=rg[p[1]]<<rg[p[3]]
             instr= "LSL " + p[0] + ", "+p[1] +", "+p[3]
             print instr
-            #file_asm.write("\t"+instr+"\n")
+            file_asm.write("\t"+instr+"\n")
     elif p[2] == '>':#Greater than
         rg[p[0]]=int(rg[p[1]]>rg[p[3]])
         instr1= "CMP " +p[1] +", "+p[3]
@@ -401,7 +401,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
             bool_stack.append(True)
             bool_stack.append(False)                        
         print instr1
-        #file_asm.write("\t"+instr1+"\n")
+        file_asm.write("\t"+instr1+"\n")
 
     elif p[2] == '<':#Lesser than
         rg[p[0]]=int(rg[p[1]]<rg[p[3]])
@@ -415,7 +415,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
             bool_stack.append(True)
             bool_stack.append(False)
         print instr1
-        #file_asm.write("\t"+instr1+"\n")
+        file_asm.write("\t"+instr1+"\n")
 
 def p_expression_ternop(p):#expression defined as a recursion on itself
     '''statement : expression '?' statement ':' statement
@@ -458,9 +458,9 @@ import ply.yacc as yacc
 yacc.yacc()
 
 def main():
-    #global file_asm
-    #file_asm = open("autogen.s",'w')
-    #file_asm.write(asm_beg)
+    global file_asm
+    file_asm = open("autogen.s",'w')
+    file_asm.write(asm_beg)
 
     #open the input file and parse it line by line
     if (len(sys.argv) <= 2):
@@ -479,8 +479,8 @@ def main():
         print "\n dictionary of variable,register mappings"
         pprint (names2)
         
-    #file_asm.write(asm_end)
-    #file_asm.close()
+    file_asm.write(asm_end)
+    file_asm.close()
 
 if __name__ == '__main__':
     main()
