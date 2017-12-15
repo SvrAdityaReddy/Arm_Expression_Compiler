@@ -4,7 +4,7 @@
 from setuptools import setup
 
 
-package_name = 'aec'
+package_name = 'aec-arm'
 filename = 'source/'+'arm_expression_compiler' + '_nobat'+'.py'
 
 def get_long_description():
@@ -24,7 +24,7 @@ setup(
     packages=[package_name],
     entry_points={
         'console_scripts': [
-            'aec = aec.arm_expression_compiler_nobat:main'
+            'aec-arm = aec-arm.aec-arm:main'
         ]
     },
     license='License :: MIT License',
