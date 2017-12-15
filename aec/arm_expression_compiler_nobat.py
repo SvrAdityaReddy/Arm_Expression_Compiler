@@ -461,11 +461,11 @@ def main():
 
     #open the input file and parse it line by line
     if (len(sys.argv) < 2):
-        print "aec command format: aec <input_file.txt> "
+        print "aec-arm command format: aec-arm <input_file.txt> "
         exit()
     else:
         input_file=sys.argv[1]
-        
+
     global file_asm
     file_asm = open("autogen.s",'w')
     file_asm.write(asm_beg)
