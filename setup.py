@@ -4,7 +4,7 @@
 from setuptools import setup
 
 
-package_name = 'arm_expression_compiler_nobat'
+package_name = 'aec'
 filename = 'source/'+'arm_expression_compiler' + '_nobat'+'.py'
 
 
@@ -35,7 +35,7 @@ setup(
     py_modules=[package_name],
     entry_points={
         'console_scripts': [
-            'arm_expression_compiler_nobat = source.arm_expression_compiler_nobat:main'
+            'aec = source.arm_expression_compiler_nobat:main'
         ]
     },
     license='License :: MIT License',
