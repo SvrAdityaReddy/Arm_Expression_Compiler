@@ -11,6 +11,8 @@ import Queue
 from subprocess import Popen
 from pprint import pprint
 
+__version__ = 'master'
+
 sys.path.insert(0, "../..")#add to search path
 
 if sys.version_info[0] >= 3:#if python 3 or greater,use input instead of raw_input
@@ -112,6 +114,7 @@ def get_free_rg():
 #function for code-generation for an assignment;translate a=value to MOV Rn,#value
 def p_statement_assign(p):
     'statement : NAME "=" expression'#tokens in an assignment statement
+    global file_asm
     if (p[1] in names):#re-assigning
         if(isinstance(p[3], int)):#number
             if(((p[3]>(pow(2,31)-1))|(p[3]<(-pow(2,31))))&p[3]!=0):#out of range
@@ -289,6 +292,7 @@ def p_expression_binop(p):#expression defined as a recursion on itself
  		  | expression '>' expression'''
     global _mainr
     global _l
+    global file_asm
     if(_l!=''):
         queue.put(_l)
     if((p[2]=='<') | (p[2]=='>')):
@@ -449,35 +453,30 @@ def p_error(p):
         print("Syntax error at EOF")
 
 #build the parser
-import ply.yacc as yacc
-yacc.yacc()
+def main():
+    import ply.yacc as yacc
+    yacc.yacc()
+    global file_asm
+    file_asm = open("autogen.s",'w')
+    file_asm.write(asm_beg)
 
-file_asm = open("autogen.s",'w')
-file_asm.write(asm_beg)
+    # build_flag=1#set to 1 to enable automatic buidling
 
-# build_flag=1#set to 1 to enable automatic buidling
+    #open the input file and parse it line by line
+    with open("../input/input.txt") as f:
+        for line in f:
+            yacc.parse(line)
+        print "\ndebug output:\n"
+        print "register dump "
+        print rg
+        print "\n"
+        print "dictionary of variable,value pairs"
+        pprint (names)
+        print "\n dictionary of variable,register mappings"
+        pprint (names2)
+        
+    file_asm.write(asm_end)
+    file_asm.close()
 
-#open the input file and parse it line by line
-with open("../input/input.txt") as f:
-    for line in f:
-        yacc.parse(line)
-    print "\ndebug output:\n"
-    print "register dump "
-    print rg
-    print "\n"
-    print "dictionary of variable,value pairs"
-    pprint (names)
-    print "\n dictionary of variable,register mappings"
-    pprint (names2)
-    
-file_asm.write(asm_end)
-file_asm.close()
-
-# if(build_flag):
-#     print "\nBuild flag set! Automatically buidling project with auto-generated asm file"
-#     p = Popen("build.bat", cwd=r"C:\Users\Prashanthi S.K\Desktop\arm\compiler\Arm_Expression_Compiler")
-#     stdout, stderr = p.communicate()
-#     print "\nPrinting build log"
-#     build_log = open("log.txt")
-#     for line in build_log:
-#         print line,
+if __name__ == '__main__':
+    main()
