@@ -1,0 +1,1043 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> statement
+Rule 1     statement -> NAME = expression
+Rule 2     statement -> expression
+Rule 3     expression -> expression + expression
+Rule 4     expression -> expression - expression
+Rule 5     expression -> expression * expression
+Rule 6     expression -> expression / expression
+Rule 7     expression -> expression % expression
+Rule 8     expression -> expression LS expression
+Rule 9     expression -> expression RS expression
+Rule 10    expression -> expression < expression
+Rule 11    expression -> expression > expression
+Rule 12    statement -> expression ? statement : statement
+Rule 13    statement -> IF expression THEN statement ELSE statement
+Rule 14    expression -> ( expression )
+Rule 15    expression -> NUMBER
+Rule 16    expression -> NAME
+
+Terminals, with rules where they appear
+
+%                    : 7
+(                    : 14
+)                    : 14
+*                    : 5
++                    : 3
+-                    : 4
+/                    : 6
+:                    : 12
+<                    : 10
+=                    : 1
+>                    : 11
+?                    : 12
+ELSE                 : 13
+IF                   : 13
+LS                   : 8
+NAME                 : 1 16
+NUMBER               : 15
+RS                   : 9
+THEN                 : 13
+error                : 
+
+Nonterminals, with rules where they appear
+
+expression           : 1 2 3 3 4 4 5 5 6 6 7 7 8 8 9 9 10 10 11 11 12 13 14
+statement            : 12 12 13 13 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . statement
+    (1) statement -> . NAME = expression
+    (2) statement -> . expression
+    (12) statement -> . expression ? statement : statement
+    (13) statement -> . IF expression THEN statement ELSE statement
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    NAME            shift and go to state 1
+    IF              shift and go to state 6
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+
+    expression                     shift and go to state 5
+    statement                      shift and go to state 3
+
+state 1
+
+    (1) statement -> NAME . = expression
+    (16) expression -> NAME .
+
+    =               shift and go to state 7
+    ?               reduce using rule 16 (expression -> NAME .)
+    +               reduce using rule 16 (expression -> NAME .)
+    -               reduce using rule 16 (expression -> NAME .)
+    *               reduce using rule 16 (expression -> NAME .)
+    /               reduce using rule 16 (expression -> NAME .)
+    %               reduce using rule 16 (expression -> NAME .)
+    LS              reduce using rule 16 (expression -> NAME .)
+    RS              reduce using rule 16 (expression -> NAME .)
+    <               reduce using rule 16 (expression -> NAME .)
+    >               reduce using rule 16 (expression -> NAME .)
+    ELSE            reduce using rule 16 (expression -> NAME .)
+    $end            reduce using rule 16 (expression -> NAME .)
+    :               reduce using rule 16 (expression -> NAME .)
+
+
+state 2
+
+    (15) expression -> NUMBER .
+
+    +               reduce using rule 15 (expression -> NUMBER .)
+    -               reduce using rule 15 (expression -> NUMBER .)
+    *               reduce using rule 15 (expression -> NUMBER .)
+    /               reduce using rule 15 (expression -> NUMBER .)
+    %               reduce using rule 15 (expression -> NUMBER .)
+    LS              reduce using rule 15 (expression -> NUMBER .)
+    RS              reduce using rule 15 (expression -> NUMBER .)
+    <               reduce using rule 15 (expression -> NUMBER .)
+    >               reduce using rule 15 (expression -> NUMBER .)
+    ?               reduce using rule 15 (expression -> NUMBER .)
+    $end            reduce using rule 15 (expression -> NUMBER .)
+    )               reduce using rule 15 (expression -> NUMBER .)
+    THEN            reduce using rule 15 (expression -> NUMBER .)
+    :               reduce using rule 15 (expression -> NUMBER .)
+    ELSE            reduce using rule 15 (expression -> NUMBER .)
+
+
+state 3
+
+    (0) S' -> statement .
+
+
+
+state 4
+
+    (14) expression -> ( . expression )
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 9
+
+state 5
+
+    (2) statement -> expression .
+    (12) statement -> expression . ? statement : statement
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    $end            reduce using rule 2 (statement -> expression .)
+    :               reduce using rule 2 (statement -> expression .)
+    ELSE            reduce using rule 2 (statement -> expression .)
+    ?               shift and go to state 18
+    +               shift and go to state 12
+    -               shift and go to state 14
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+    LS              shift and go to state 16
+    RS              shift and go to state 11
+    <               shift and go to state 17
+    >               shift and go to state 19
+
+
+state 6
+
+    (13) statement -> IF . expression THEN statement ELSE statement
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 20
+
+state 7
+
+    (1) statement -> NAME = . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 21
+
+state 8
+
+    (16) expression -> NAME .
+
+    +               reduce using rule 16 (expression -> NAME .)
+    -               reduce using rule 16 (expression -> NAME .)
+    *               reduce using rule 16 (expression -> NAME .)
+    /               reduce using rule 16 (expression -> NAME .)
+    %               reduce using rule 16 (expression -> NAME .)
+    LS              reduce using rule 16 (expression -> NAME .)
+    RS              reduce using rule 16 (expression -> NAME .)
+    <               reduce using rule 16 (expression -> NAME .)
+    >               reduce using rule 16 (expression -> NAME .)
+    ?               reduce using rule 16 (expression -> NAME .)
+    $end            reduce using rule 16 (expression -> NAME .)
+    )               reduce using rule 16 (expression -> NAME .)
+    THEN            reduce using rule 16 (expression -> NAME .)
+    :               reduce using rule 16 (expression -> NAME .)
+    ELSE            reduce using rule 16 (expression -> NAME .)
+
+
+state 9
+
+    (14) expression -> ( expression . )
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    )               shift and go to state 22
+    +               shift and go to state 12
+    -               shift and go to state 14
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+    LS              shift and go to state 16
+    RS              shift and go to state 11
+    <               shift and go to state 17
+    >               shift and go to state 19
+
+
+state 10
+
+    (7) expression -> expression % . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 23
+
+state 11
+
+    (9) expression -> expression RS . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 24
+
+state 12
+
+    (3) expression -> expression + . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 25
+
+state 13
+
+    (5) expression -> expression * . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 26
+
+state 14
+
+    (4) expression -> expression - . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 27
+
+state 15
+
+    (6) expression -> expression / . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 28
+
+state 16
+
+    (8) expression -> expression LS . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 29
+
+state 17
+
+    (10) expression -> expression < . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 30
+
+state 18
+
+    (12) statement -> expression ? . statement : statement
+    (1) statement -> . NAME = expression
+    (2) statement -> . expression
+    (12) statement -> . expression ? statement : statement
+    (13) statement -> . IF expression THEN statement ELSE statement
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    NAME            shift and go to state 1
+    IF              shift and go to state 6
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+
+    expression                     shift and go to state 5
+    statement                      shift and go to state 31
+
+state 19
+
+    (11) expression -> expression > . expression
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+    NAME            shift and go to state 8
+
+    expression                     shift and go to state 32
+
+state 20
+
+    (13) statement -> IF expression . THEN statement ELSE statement
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    THEN            shift and go to state 33
+    +               shift and go to state 12
+    -               shift and go to state 14
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+    LS              shift and go to state 16
+    RS              shift and go to state 11
+    <               shift and go to state 17
+    >               shift and go to state 19
+
+
+state 21
+
+    (1) statement -> NAME = expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    $end            reduce using rule 1 (statement -> NAME = expression .)
+    :               reduce using rule 1 (statement -> NAME = expression .)
+    ELSE            reduce using rule 1 (statement -> NAME = expression .)
+    +               shift and go to state 12
+    -               shift and go to state 14
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+    LS              shift and go to state 16
+    RS              shift and go to state 11
+    <               shift and go to state 17
+    >               shift and go to state 19
+
+
+state 22
+
+    (14) expression -> ( expression ) .
+
+    +               reduce using rule 14 (expression -> ( expression ) .)
+    -               reduce using rule 14 (expression -> ( expression ) .)
+    *               reduce using rule 14 (expression -> ( expression ) .)
+    /               reduce using rule 14 (expression -> ( expression ) .)
+    %               reduce using rule 14 (expression -> ( expression ) .)
+    LS              reduce using rule 14 (expression -> ( expression ) .)
+    RS              reduce using rule 14 (expression -> ( expression ) .)
+    <               reduce using rule 14 (expression -> ( expression ) .)
+    >               reduce using rule 14 (expression -> ( expression ) .)
+    ?               reduce using rule 14 (expression -> ( expression ) .)
+    $end            reduce using rule 14 (expression -> ( expression ) .)
+    )               reduce using rule 14 (expression -> ( expression ) .)
+    THEN            reduce using rule 14 (expression -> ( expression ) .)
+    :               reduce using rule 14 (expression -> ( expression ) .)
+    ELSE            reduce using rule 14 (expression -> ( expression ) .)
+
+
+state 23
+
+    (7) expression -> expression % expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    +               reduce using rule 7 (expression -> expression % expression .)
+    -               reduce using rule 7 (expression -> expression % expression .)
+    *               reduce using rule 7 (expression -> expression % expression .)
+    /               reduce using rule 7 (expression -> expression % expression .)
+    %               reduce using rule 7 (expression -> expression % expression .)
+    LS              reduce using rule 7 (expression -> expression % expression .)
+    RS              reduce using rule 7 (expression -> expression % expression .)
+    <               reduce using rule 7 (expression -> expression % expression .)
+    >               reduce using rule 7 (expression -> expression % expression .)
+    ?               reduce using rule 7 (expression -> expression % expression .)
+    $end            reduce using rule 7 (expression -> expression % expression .)
+    )               reduce using rule 7 (expression -> expression % expression .)
+    THEN            reduce using rule 7 (expression -> expression % expression .)
+    :               reduce using rule 7 (expression -> expression % expression .)
+    ELSE            reduce using rule 7 (expression -> expression % expression .)
+
+  ! +               [ shift and go to state 12 ]
+  ! -               [ shift and go to state 14 ]
+  ! *               [ shift and go to state 13 ]
+  ! /               [ shift and go to state 15 ]
+  ! %               [ shift and go to state 10 ]
+  ! LS              [ shift and go to state 16 ]
+  ! RS              [ shift and go to state 11 ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 24
+
+    (9) expression -> expression RS expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    LS              reduce using rule 9 (expression -> expression RS expression .)
+    RS              reduce using rule 9 (expression -> expression RS expression .)
+    <               reduce using rule 9 (expression -> expression RS expression .)
+    >               reduce using rule 9 (expression -> expression RS expression .)
+    ?               reduce using rule 9 (expression -> expression RS expression .)
+    $end            reduce using rule 9 (expression -> expression RS expression .)
+    )               reduce using rule 9 (expression -> expression RS expression .)
+    THEN            reduce using rule 9 (expression -> expression RS expression .)
+    :               reduce using rule 9 (expression -> expression RS expression .)
+    ELSE            reduce using rule 9 (expression -> expression RS expression .)
+    +               shift and go to state 12
+    -               shift and go to state 14
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+
+  ! +               [ reduce using rule 9 (expression -> expression RS expression .) ]
+  ! -               [ reduce using rule 9 (expression -> expression RS expression .) ]
+  ! *               [ reduce using rule 9 (expression -> expression RS expression .) ]
+  ! /               [ reduce using rule 9 (expression -> expression RS expression .) ]
+  ! %               [ reduce using rule 9 (expression -> expression RS expression .) ]
+  ! LS              [ shift and go to state 16 ]
+  ! RS              [ shift and go to state 11 ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 25
+
+    (3) expression -> expression + expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    +               reduce using rule 3 (expression -> expression + expression .)
+    -               reduce using rule 3 (expression -> expression + expression .)
+    LS              reduce using rule 3 (expression -> expression + expression .)
+    RS              reduce using rule 3 (expression -> expression + expression .)
+    <               reduce using rule 3 (expression -> expression + expression .)
+    >               reduce using rule 3 (expression -> expression + expression .)
+    ?               reduce using rule 3 (expression -> expression + expression .)
+    $end            reduce using rule 3 (expression -> expression + expression .)
+    )               reduce using rule 3 (expression -> expression + expression .)
+    THEN            reduce using rule 3 (expression -> expression + expression .)
+    :               reduce using rule 3 (expression -> expression + expression .)
+    ELSE            reduce using rule 3 (expression -> expression + expression .)
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+
+  ! *               [ reduce using rule 3 (expression -> expression + expression .) ]
+  ! /               [ reduce using rule 3 (expression -> expression + expression .) ]
+  ! %               [ reduce using rule 3 (expression -> expression + expression .) ]
+  ! +               [ shift and go to state 12 ]
+  ! -               [ shift and go to state 14 ]
+  ! LS              [ shift and go to state 16 ]
+  ! RS              [ shift and go to state 11 ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 26
+
+    (5) expression -> expression * expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    +               reduce using rule 5 (expression -> expression * expression .)
+    -               reduce using rule 5 (expression -> expression * expression .)
+    *               reduce using rule 5 (expression -> expression * expression .)
+    /               reduce using rule 5 (expression -> expression * expression .)
+    %               reduce using rule 5 (expression -> expression * expression .)
+    LS              reduce using rule 5 (expression -> expression * expression .)
+    RS              reduce using rule 5 (expression -> expression * expression .)
+    <               reduce using rule 5 (expression -> expression * expression .)
+    >               reduce using rule 5 (expression -> expression * expression .)
+    ?               reduce using rule 5 (expression -> expression * expression .)
+    $end            reduce using rule 5 (expression -> expression * expression .)
+    )               reduce using rule 5 (expression -> expression * expression .)
+    THEN            reduce using rule 5 (expression -> expression * expression .)
+    :               reduce using rule 5 (expression -> expression * expression .)
+    ELSE            reduce using rule 5 (expression -> expression * expression .)
+
+  ! +               [ shift and go to state 12 ]
+  ! -               [ shift and go to state 14 ]
+  ! *               [ shift and go to state 13 ]
+  ! /               [ shift and go to state 15 ]
+  ! %               [ shift and go to state 10 ]
+  ! LS              [ shift and go to state 16 ]
+  ! RS              [ shift and go to state 11 ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 27
+
+    (4) expression -> expression - expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    +               reduce using rule 4 (expression -> expression - expression .)
+    -               reduce using rule 4 (expression -> expression - expression .)
+    LS              reduce using rule 4 (expression -> expression - expression .)
+    RS              reduce using rule 4 (expression -> expression - expression .)
+    <               reduce using rule 4 (expression -> expression - expression .)
+    >               reduce using rule 4 (expression -> expression - expression .)
+    ?               reduce using rule 4 (expression -> expression - expression .)
+    $end            reduce using rule 4 (expression -> expression - expression .)
+    )               reduce using rule 4 (expression -> expression - expression .)
+    THEN            reduce using rule 4 (expression -> expression - expression .)
+    :               reduce using rule 4 (expression -> expression - expression .)
+    ELSE            reduce using rule 4 (expression -> expression - expression .)
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+
+  ! *               [ reduce using rule 4 (expression -> expression - expression .) ]
+  ! /               [ reduce using rule 4 (expression -> expression - expression .) ]
+  ! %               [ reduce using rule 4 (expression -> expression - expression .) ]
+  ! +               [ shift and go to state 12 ]
+  ! -               [ shift and go to state 14 ]
+  ! LS              [ shift and go to state 16 ]
+  ! RS              [ shift and go to state 11 ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 28
+
+    (6) expression -> expression / expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    +               reduce using rule 6 (expression -> expression / expression .)
+    -               reduce using rule 6 (expression -> expression / expression .)
+    *               reduce using rule 6 (expression -> expression / expression .)
+    /               reduce using rule 6 (expression -> expression / expression .)
+    %               reduce using rule 6 (expression -> expression / expression .)
+    LS              reduce using rule 6 (expression -> expression / expression .)
+    RS              reduce using rule 6 (expression -> expression / expression .)
+    <               reduce using rule 6 (expression -> expression / expression .)
+    >               reduce using rule 6 (expression -> expression / expression .)
+    ?               reduce using rule 6 (expression -> expression / expression .)
+    $end            reduce using rule 6 (expression -> expression / expression .)
+    )               reduce using rule 6 (expression -> expression / expression .)
+    THEN            reduce using rule 6 (expression -> expression / expression .)
+    :               reduce using rule 6 (expression -> expression / expression .)
+    ELSE            reduce using rule 6 (expression -> expression / expression .)
+
+  ! +               [ shift and go to state 12 ]
+  ! -               [ shift and go to state 14 ]
+  ! *               [ shift and go to state 13 ]
+  ! /               [ shift and go to state 15 ]
+  ! %               [ shift and go to state 10 ]
+  ! LS              [ shift and go to state 16 ]
+  ! RS              [ shift and go to state 11 ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 29
+
+    (8) expression -> expression LS expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    LS              reduce using rule 8 (expression -> expression LS expression .)
+    RS              reduce using rule 8 (expression -> expression LS expression .)
+    <               reduce using rule 8 (expression -> expression LS expression .)
+    >               reduce using rule 8 (expression -> expression LS expression .)
+    ?               reduce using rule 8 (expression -> expression LS expression .)
+    $end            reduce using rule 8 (expression -> expression LS expression .)
+    )               reduce using rule 8 (expression -> expression LS expression .)
+    THEN            reduce using rule 8 (expression -> expression LS expression .)
+    :               reduce using rule 8 (expression -> expression LS expression .)
+    ELSE            reduce using rule 8 (expression -> expression LS expression .)
+    +               shift and go to state 12
+    -               shift and go to state 14
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+
+  ! +               [ reduce using rule 8 (expression -> expression LS expression .) ]
+  ! -               [ reduce using rule 8 (expression -> expression LS expression .) ]
+  ! *               [ reduce using rule 8 (expression -> expression LS expression .) ]
+  ! /               [ reduce using rule 8 (expression -> expression LS expression .) ]
+  ! %               [ reduce using rule 8 (expression -> expression LS expression .) ]
+  ! LS              [ shift and go to state 16 ]
+  ! RS              [ shift and go to state 11 ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 30
+
+    (10) expression -> expression < expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    <               reduce using rule 10 (expression -> expression < expression .)
+    >               reduce using rule 10 (expression -> expression < expression .)
+    ?               reduce using rule 10 (expression -> expression < expression .)
+    $end            reduce using rule 10 (expression -> expression < expression .)
+    )               reduce using rule 10 (expression -> expression < expression .)
+    THEN            reduce using rule 10 (expression -> expression < expression .)
+    :               reduce using rule 10 (expression -> expression < expression .)
+    ELSE            reduce using rule 10 (expression -> expression < expression .)
+    +               shift and go to state 12
+    -               shift and go to state 14
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+    LS              shift and go to state 16
+    RS              shift and go to state 11
+
+  ! +               [ reduce using rule 10 (expression -> expression < expression .) ]
+  ! -               [ reduce using rule 10 (expression -> expression < expression .) ]
+  ! *               [ reduce using rule 10 (expression -> expression < expression .) ]
+  ! /               [ reduce using rule 10 (expression -> expression < expression .) ]
+  ! %               [ reduce using rule 10 (expression -> expression < expression .) ]
+  ! LS              [ reduce using rule 10 (expression -> expression < expression .) ]
+  ! RS              [ reduce using rule 10 (expression -> expression < expression .) ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 31
+
+    (12) statement -> expression ? statement . : statement
+
+    :               shift and go to state 34
+
+
+state 32
+
+    (11) expression -> expression > expression .
+    (3) expression -> expression . + expression
+    (4) expression -> expression . - expression
+    (5) expression -> expression . * expression
+    (6) expression -> expression . / expression
+    (7) expression -> expression . % expression
+    (8) expression -> expression . LS expression
+    (9) expression -> expression . RS expression
+    (10) expression -> expression . < expression
+    (11) expression -> expression . > expression
+
+    <               reduce using rule 11 (expression -> expression > expression .)
+    >               reduce using rule 11 (expression -> expression > expression .)
+    ?               reduce using rule 11 (expression -> expression > expression .)
+    $end            reduce using rule 11 (expression -> expression > expression .)
+    )               reduce using rule 11 (expression -> expression > expression .)
+    THEN            reduce using rule 11 (expression -> expression > expression .)
+    :               reduce using rule 11 (expression -> expression > expression .)
+    ELSE            reduce using rule 11 (expression -> expression > expression .)
+    +               shift and go to state 12
+    -               shift and go to state 14
+    *               shift and go to state 13
+    /               shift and go to state 15
+    %               shift and go to state 10
+    LS              shift and go to state 16
+    RS              shift and go to state 11
+
+  ! +               [ reduce using rule 11 (expression -> expression > expression .) ]
+  ! -               [ reduce using rule 11 (expression -> expression > expression .) ]
+  ! *               [ reduce using rule 11 (expression -> expression > expression .) ]
+  ! /               [ reduce using rule 11 (expression -> expression > expression .) ]
+  ! %               [ reduce using rule 11 (expression -> expression > expression .) ]
+  ! LS              [ reduce using rule 11 (expression -> expression > expression .) ]
+  ! RS              [ reduce using rule 11 (expression -> expression > expression .) ]
+  ! <               [ shift and go to state 17 ]
+  ! >               [ shift and go to state 19 ]
+
+
+state 33
+
+    (13) statement -> IF expression THEN . statement ELSE statement
+    (1) statement -> . NAME = expression
+    (2) statement -> . expression
+    (12) statement -> . expression ? statement : statement
+    (13) statement -> . IF expression THEN statement ELSE statement
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    NAME            shift and go to state 1
+    IF              shift and go to state 6
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+
+    expression                     shift and go to state 5
+    statement                      shift and go to state 35
+
+state 34
+
+    (12) statement -> expression ? statement : . statement
+    (1) statement -> . NAME = expression
+    (2) statement -> . expression
+    (12) statement -> . expression ? statement : statement
+    (13) statement -> . IF expression THEN statement ELSE statement
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    NAME            shift and go to state 1
+    IF              shift and go to state 6
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+
+    expression                     shift and go to state 5
+    statement                      shift and go to state 36
+
+state 35
+
+    (13) statement -> IF expression THEN statement . ELSE statement
+
+    ELSE            shift and go to state 37
+
+
+state 36
+
+    (12) statement -> expression ? statement : statement .
+
+    $end            reduce using rule 12 (statement -> expression ? statement : statement .)
+    :               reduce using rule 12 (statement -> expression ? statement : statement .)
+    ELSE            reduce using rule 12 (statement -> expression ? statement : statement .)
+
+
+state 37
+
+    (13) statement -> IF expression THEN statement ELSE . statement
+    (1) statement -> . NAME = expression
+    (2) statement -> . expression
+    (12) statement -> . expression ? statement : statement
+    (13) statement -> . IF expression THEN statement ELSE statement
+    (3) expression -> . expression + expression
+    (4) expression -> . expression - expression
+    (5) expression -> . expression * expression
+    (6) expression -> . expression / expression
+    (7) expression -> . expression % expression
+    (8) expression -> . expression LS expression
+    (9) expression -> . expression RS expression
+    (10) expression -> . expression < expression
+    (11) expression -> . expression > expression
+    (14) expression -> . ( expression )
+    (15) expression -> . NUMBER
+    (16) expression -> . NAME
+
+    NAME            shift and go to state 1
+    IF              shift and go to state 6
+    (               shift and go to state 4
+    NUMBER          shift and go to state 2
+
+    expression                     shift and go to state 5
+    statement                      shift and go to state 38
+
+state 38
+
+    (13) statement -> IF expression THEN statement ELSE statement .
+
+    $end            reduce using rule 13 (statement -> IF expression THEN statement ELSE statement .)
+    :               reduce using rule 13 (statement -> IF expression THEN statement ELSE statement .)
+    ELSE            reduce using rule 13 (statement -> IF expression THEN statement ELSE statement .)
+
