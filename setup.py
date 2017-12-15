@@ -35,7 +35,7 @@ setup(
     py_modules=[package_name],
     entry_points={
         'console_scripts': [
-            'source = source.arm_expression_compiler_nobat:main'
+            'aec = aec.arm_expression_compiler_nobat:main'
         ]
     },
     license='License :: MIT License',
