@@ -148,7 +148,7 @@ dictionary of variable,value pairs
 
 Now this is available as a snap package at [here](https://snapcraft.io/aec-arm/) <br>
 
-![image](https://user-images.githubusercontent.com/19650574/34036593-b5f3f1de-e1ab-11e7-90d1-6455da1467c2.png)
+![image](https://user-images.githubusercontent.com/19650574/34045423-d4000262-e1ce-11e7-9884-96a9b24165fb.png)
 
 ### Snap Installation
 
