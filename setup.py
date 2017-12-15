@@ -24,7 +24,7 @@ setup(
     packages=[package_name],
     entry_points={
         'console_scripts': [
-            'aec-arm = aec-arm.aec-arm:main'
+            'aec-arm = aec_arm.__main__:main'
         ]
     },
     license='License :: MIT License',
