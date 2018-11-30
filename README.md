@@ -176,7 +176,7 @@ Prashanthi Kadambi (https://github.com/amateurcoder10) <br>
 Seelapureddy Venkata Rama Aditya Reddy (https://github.com/SvrAdityaReddy) <br>
 
 # References
-[1] [Writing Parsers and Compilers with PLY by David Beazley](http://www.dabeaz.com/ply/PLYTalk)<br>
+[1] [Writing Parsers and Compilers with PLY by David Beazley](https://speakerdeck.com/dabeaz/writing-compilers-in-python-with-ply)<br>
 [2] [Python Lex-Yacc](https://github.com/dabeaz/ply/)<br>
 [3] [Create your first snap](https://tutorials.ubuntu.com/tutorial/create-your-first-snap)<br>
 [4] [The python plugin](https://docs.snapcraft.io/reference/plugins/python)<br>
