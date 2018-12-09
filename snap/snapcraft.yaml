@@ -18,7 +18,7 @@ apps:
 parts:
   aec-arm:
     plugin: python
-    python-version: python2
+    python-version: python3
     python-packages: ['ply']
     source: https://github.com/SvrAdityaReddy/Arm_Expression_Compiler.git
     source-tag: master
