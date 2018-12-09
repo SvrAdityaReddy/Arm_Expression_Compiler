@@ -8,7 +8,7 @@
 
 import sys
 import os
-import Queue
+import queue as Queue
 from subprocess import Popen
 from pprint import pprint
 
