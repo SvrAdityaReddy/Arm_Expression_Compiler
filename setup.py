@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 # coding=utf-8
 
 from setuptools import setup
@@ -16,7 +16,7 @@ def get_long_description():
 setup(
     name=package_name,
     author='depikaraj,amateurcoder10,SvrAdityaReddy',
-    author_email='deepika.raj.93@gmail.com,Prashanthi.S.K@iiitb.org,Aditya.seelapureddy@yahoo.com',
+    author_email='deepika.raj.93@gmail.com,Prashanthi.S.K@iiitb.org,Aditya.seelapureddy@tutanota.com',
     description='convert expressions to arm cotrex M4 code',
     url='https://github.com/SvrAdityaReddy',
     long_description=get_long_description(),
